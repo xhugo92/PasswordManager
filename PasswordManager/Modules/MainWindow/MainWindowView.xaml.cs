@@ -13,16 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PasswordManager
+namespace PasswordManager.Modules
 {
     /// <summary>
     /// Interação lógica para MainWindow.xam
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window
     {
-        public MainWindow()
+        public MainWindowView()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
+            Current = this;
         }
+
+        public static MainWindowView Current { get; set; }
+
     }
 }
