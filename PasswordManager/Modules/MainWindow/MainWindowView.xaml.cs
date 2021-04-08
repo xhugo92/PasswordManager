@@ -28,6 +28,5 @@ namespace PasswordManager.Modules
         }
 
         public static MainWindowView Current { get; set; }
-
     }
 }

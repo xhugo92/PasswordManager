@@ -15,6 +15,9 @@ namespace PasswordManager
     /// </summary>
     public partial class App : Application
     {
-
+        public App()
+        {
+            
+        }
     }
 }
