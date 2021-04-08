@@ -15,10 +15,10 @@
             
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <Button Content="Teste" Command="{Binding TesteCommand}"/>
-            <Button/>
-            <Button/>
-            <Button/>
+            <Button Content="Home" Command="{Binding NavigateHomeCommand}"/>
+            <Button Content="Add" Command="{Binding NavigateAddCommand}"/>
+            <Button Content="Gallery" Command="{Binding NavigateGalleryCommand}"/>
+            <Button Content="Config" Command="{Binding NavigateConfigurationCommand}"/>
         </StackPanel>
         
     </Grid>

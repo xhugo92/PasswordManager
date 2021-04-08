@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MvvmHelpers;
+using System.Linq;
 
 namespace PasswordManager.Services
 {
@@ -24,6 +25,11 @@ namespace PasswordManager.Services
             UserControl View = (UserControl)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
             MainWindowView.Current.Content.Children.Add(View);
+        }
+
+        public static async Task ClearStack()
+        {
+            MainWindowView.Current.Content.Children.Clear();
         }
 
     }

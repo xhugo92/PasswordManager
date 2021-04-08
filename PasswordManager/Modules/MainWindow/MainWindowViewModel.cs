@@ -14,14 +14,39 @@ namespace PasswordManager.Modules
 
         public MainWindowViewModel()
         {
-            TesteCommand = new MvvmHelpers.Commands.AsyncCommand(Teste);
+            NavigateHomeCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateHome);
+            NavigateAddCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateAdd);
+            NavigateGalleryCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateGallery);
+            NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
         }
 
-        public ICommand TesteCommand { get; set; }
+        public ICommand NavigateHomeCommand { get; set; }
 
-        private async Task Teste()
+        private async Task NavigateHome()
         {
+            await NavigationService.ClearStack();
             await NavigationService.NavigateAsync<HomeViewModel>();
+        } 
+
+        public ICommand NavigateAddCommand { get; set; }
+
+        private async Task NavigateAdd()
+        {
+            await NavigationService.NavigateAsync<AddViewModel>();
+        }
+
+        public ICommand NavigateGalleryCommand { get; set; }
+
+        private async Task NavigateGallery()
+        {
+            await NavigationService.NavigateAsync<GalleryViewModel>();
+        }
+        
+        public ICommand NavigateConfigurationCommand { get; set; }
+
+        private async Task NavigateConfiguration()
+        {
+            await NavigationService.NavigateAsync<ConfigurationViewModel>();
         }
     }
 }
