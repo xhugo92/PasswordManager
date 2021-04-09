@@ -12,6 +12,9 @@
             <i:InvokeCommandAction Command="{Binding NavigateHomeCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding OpenHelpWindowsCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

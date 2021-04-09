@@ -18,6 +18,7 @@ namespace PasswordManager.Modules
             NavigateAddCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateAdd);
             NavigateGalleryCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateGallery);
             NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
+            OpenHelpWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(OpenHelpWindows);
         }
 
         public ICommand NavigateHomeCommand { get; set; }
@@ -47,6 +48,15 @@ namespace PasswordManager.Modules
         private async Task NavigateConfiguration()
         {
             await NavigationService.NavigateAsync<ConfigurationViewModel>();
+        }
+
+        public KeyEventArgs ButtonPressed { get; set; }
+
+        public ICommand OpenHelpWindowsCommand { get; set; }
+
+        private async Task OpenHelpWindows()
+        {
+            await NavigationService.OpenNewWindowAsync<HelpViewModel>();
         }
     }
 }
