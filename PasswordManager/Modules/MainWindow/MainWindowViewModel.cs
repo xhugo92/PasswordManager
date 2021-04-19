@@ -25,7 +25,6 @@ namespace PasswordManager.Modules
 
         private async Task NavigateHome()
         {
-            await NavigationService.ClearStack();
             await NavigationService.NavigateAsync<HomeViewModel>();
         } 
 

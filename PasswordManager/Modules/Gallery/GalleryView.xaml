@@ -5,9 +5,64 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Background="Chocolate">
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="View">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="2px" Margin="5" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Pesquisar" Margin="5"/>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Margin ="5" Width="85">
+                        <ComboBoxItem Content="Source" IsSelected="True"/>
+                        <ComboBoxItem Content="Username"/>
+                    </ComboBox>
+                    <TextBox Margin="5" Width="165"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="2px" Grid.Row="2" Grid.ColumnSpan="2" Margin="5">
+            <ListBox ItemsSource="{Binding ItemSource}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Blue" BorderThickness="2" Margin="3" Width="235">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                                    <TextBlock Text="Source: "/>
+                                    <TextBlock Text="{Binding Source}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" >
+                                    <TextBlock Text="Username: "/>
+                                    <TextBlock Text="{Binding Username}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="2" >
+                                    <TextBlock Text="Password: "/>
+                                    <TextBlock Text="{Binding EncryptedPassword}" TextWrapping="Wrap" 
+                                               Visibility="{Binding DataContext.PasswordVisibility, ElementName=View}"/>
+                                </StackPanel>
+                                <Button Grid.Row="2" HorizontalAlignment="Right" 
+                                        Command="{Binding DataContext.ChangePasswordVisibilityCommand, 
+                                        ElementName=View}">
+                                    <TextBlock Text="{Binding DataContext.VisibilityState, ElementName=View}"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
     </Grid>
 </UserControl>

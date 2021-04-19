@@ -25,6 +25,8 @@ namespace PasswordManager.Services
             ConstructorInfo ViewConstructor = ViewType.GetConstructor(Type.EmptyTypes);
             UserControl View = (UserControl)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
+            //TODO: Quando colocar o background no user control pode tirar o clear para implementar o botão de back
+            MainWindowView.Current.Content.Children.Clear();
             MainWindowView.Current.Content.Children.Add(View);
         }
         
@@ -41,11 +43,6 @@ namespace PasswordManager.Services
             View.DataContext = ViewModel;
             Windows.Add(View);
             View.Show();
-        }
-
-        public static async Task ClearStack()
-        {
-            MainWindowView.Current.Content.Children.Clear();
         }
 
     }
