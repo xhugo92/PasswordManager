@@ -8,54 +8,92 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PasswordManager.Modules
 {
-    class GalleryViewModel:BaseViewModel
+    class GalleryViewModel : BaseViewModel
     {
         public GalleryViewModel()
         {
-            ItemSource = new ObservableRangeCollection<SignInInformations>();
-            ItemSource.Add(new SignInInformations(){ Source = "Steam", Username = "Hugofrn1992", EncryptedPassword="teste"});
-            ItemSource.Add(new SignInInformations(){ Source = "Steam", Username = "Jão", EncryptedPassword="jao1234"});
-            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand(ChangePasswordVisibility);
-            VisibilityState = "S";
-            PasswordVisibility = Visibility.Hidden;
+            ComboBoxItemSource = new List<ComboBoxItens>
+            {
+                new ComboBoxItens("Source", true, FiltertypeEnum.Source),
+                new ComboBoxItens("Username", false, FiltertypeEnum.Username)
+            };
+            SelectedItem = ComboBoxItemSource[0];
+            OriginalListBoxItemSource = new List<SignInInformations>
+            {
+
+                new SignInInformations() {Source = "Steam", Username = "Hugofrn1992", EncryptedPassword = "teste" },
+                new SignInInformations() { Source = "Steam", Username = "Jão", EncryptedPassword = "jao1234" }
+            };
+            ListBoxItemSource = new ObservableRangeCollection<SignInInformations>(OriginalListBoxItemSource.ToList());
+            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(ChangePasswordVisibility);
+            TextChangedCommand = new MvvmHelpers.Commands.AsyncCommand(TextChanged);
+            DeleteEntryCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(DeleteEntry);
+
         }
 
         public ICommand ChangePasswordVisibilityCommand { get; set; }
 
-        private async Task ChangePasswordVisibility()
+        private async Task ChangePasswordVisibility(SignInInformations signInInformations)
         {
-            if(PasswordVisibility==Visibility.Hidden)
+            if (signInInformations.PasswordVisibility == Visibility.Hidden)
             {
-                PasswordVisibility = Visibility.Visible;
-                VisibilityState = "O";
+                signInInformations.PasswordVisibility = Visibility.Visible;
+                signInInformations.VisibilityState = "O";
             }
             else
             {
-                PasswordVisibility = Visibility.Hidden;
-                VisibilityState = "S";
+                signInInformations.PasswordVisibility = Visibility.Hidden;
+                signInInformations.VisibilityState = "S";
             }
         }
-        private Visibility passwordVisibility;
 
-        public Visibility PasswordVisibility
+        public ICommand DeleteEntryCommand { get; set; }
+
+        private async Task DeleteEntry(SignInInformations signInInformations)
         {
-            get { return passwordVisibility; }
-            set { SetProperty(ref passwordVisibility, value); }
+            ListBoxItemSource.Remove(signInInformations);
         }
 
-        private string visibilityState;
+        public ICommand TextChangedCommand { get; set; }
 
-        public string VisibilityState
+        private async Task TextChanged()
         {
-            get { return visibilityState; }
-            set { SetProperty(ref visibilityState, value); }
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                ListBoxItemSource.ReplaceRange(OriginalListBoxItemSource);
+                return;
+            }
+
+            if (SelectedItem.FilterType == FiltertypeEnum.Source)
+            {
+                var Filter = OriginalListBoxItemSource.Where(Item => Item.Source.ToLower().StartsWith(SearchText.ToLower()));
+                ListBoxItemSource.ReplaceRange(Filter);
+            }
+            else
+            {
+                var Filter = OriginalListBoxItemSource.Where(Item => Item.Username.ToLower().StartsWith(SearchText.ToLower()));
+                ListBoxItemSource.ReplaceRange(Filter);
+            }
         }
 
-        public ObservableRangeCollection<SignInInformations> ItemSource { get; set; }
+        private string searchText;
+
+        public string SearchText
+        {
+            get { return searchText; }
+            set { SetProperty(ref searchText, value); }
+        }
+
+        public ComboBoxItens SelectedItem { get; set; }
+
+        public List<ComboBoxItens> ComboBoxItemSource { get; set; }
+        public ObservableRangeCollection<SignInInformations> ListBoxItemSource { get; set; }
+        private List<SignInInformations> OriginalListBoxItemSource;
 
 
     }
