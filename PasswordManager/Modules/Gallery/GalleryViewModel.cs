@@ -1,5 +1,6 @@
 ﻿using MvvmHelpers;
 using PasswordManager.Model;
+using PasswordManager.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,12 +31,20 @@ namespace PasswordManager.Modules
                 new SignInInformations() { Source = "Steam", Username = "Jão", EncryptedPassword = "jao1234" }
             };
             ListBoxItemSource = new ObservableRangeCollection<SignInInformations>(OriginalListBoxItemSource.ToList());
-            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(ChangePasswordVisibility);
             TextChangedCommand = new MvvmHelpers.Commands.AsyncCommand(TextChanged);
+            ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(ChangeSignInInformation);
+            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(ChangePasswordVisibility);
             DeleteEntryCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(DeleteEntry);
 
         }
 
+        public ICommand ChangeSignInInformationCommand { get; set; }
+
+        private async Task ChangeSignInInformation(SignInInformations signInInformations)
+        {
+            await NavigationService.OpenNewWindowAsync<EditInformationViewModel>(signInInformations);
+        }
+        
         public ICommand ChangePasswordVisibilityCommand { get; set; }
 
         private async Task ChangePasswordVisibility(SignInInformations signInInformations)

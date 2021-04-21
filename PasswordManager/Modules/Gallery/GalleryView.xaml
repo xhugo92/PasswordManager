@@ -68,6 +68,10 @@
                                         ElementName=View}" CommandParameter="{Binding .}">
                                         <TextBlock Text="{Binding VisibilityState}"/>
                                     </Button>
+                                    <Button Command="{Binding DataContext.ChangeSignInInformationCommand, 
+                                        ElementName=View}" CommandParameter="{Binding .}">
+                                        <TextBlock Text="C"/>
+                                    </Button>
                                     <Button Command="{Binding DataContext.DeleteEntryCommand, ElementName=View}"
                                             CommandParameter="{Binding .}">
                                         <TextBlock Text="E"/>

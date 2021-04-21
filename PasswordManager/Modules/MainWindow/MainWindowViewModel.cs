@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using PasswordManager.Services;
 
 namespace PasswordManager.Modules
 {
-    public class MainWindowViewModel:BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
 
         public MainWindowViewModel()
@@ -19,6 +20,14 @@ namespace PasswordManager.Modules
             NavigateGalleryCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateGallery);
             NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
             OpenHelpWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(OpenHelpWindows);
+            CloseAllWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(CloseAllWindows);
+        }
+
+        public ICommand CloseAllWindowsCommand { get; set; }
+
+        private async Task CloseAllWindows()
+        {
+            await NavigationService.CloseAllWindows();            
         }
 
         public ICommand NavigateHomeCommand { get; set; }
@@ -26,7 +35,7 @@ namespace PasswordManager.Modules
         private async Task NavigateHome()
         {
             await NavigationService.NavigateAsync<HomeViewModel>();
-        } 
+        }
 
         public ICommand NavigateAddCommand { get; set; }
 
@@ -41,15 +50,13 @@ namespace PasswordManager.Modules
         {
             await NavigationService.NavigateAsync<GalleryViewModel>();
         }
-        
+
         public ICommand NavigateConfigurationCommand { get; set; }
 
         private async Task NavigateConfiguration()
         {
             await NavigationService.NavigateAsync<ConfigurationViewModel>();
         }
-
-        public KeyEventArgs ButtonPressed { get; set; }
 
         public ICommand OpenHelpWindowsCommand { get; set; }
 

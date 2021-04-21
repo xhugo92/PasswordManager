@@ -14,7 +14,7 @@ namespace PasswordManager.Services
     public static class NavigationService
     {
         private static List<Window> Windows = new List<Window>();
-        public static async Task NavigateAsync<T>(params object[] parameters) where T : BaseViewModel
+        public static async Task NavigateAsync<T>(params object[] parameters) where T: BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;
             Type ViewType = Type.GetType(name.Replace("ViewModel", "View"));
@@ -29,8 +29,8 @@ namespace PasswordManager.Services
             MainWindowView.Current.Content.Children.Clear();
             MainWindowView.Current.Content.Children.Add(View);
         }
-        
-        public static async Task OpenNewWindowAsync<T>(params object[] parameters) where T : BaseViewModel
+
+        public static async Task OpenNewWindowAsync<T>(params object[] parameters) where T: BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;
             Type ViewType = Type.GetType(name.Replace("ViewModel", "View"));
@@ -45,5 +45,17 @@ namespace PasswordManager.Services
             View.Show();
         }
 
+        public static async Task CloseAllWindows()
+        {
+            foreach (Window window in Windows)
+            {
+                window.Close();
+            }
+            Windows.Clear();
+        }
+        public static async Task CloseWindow()
+        {  
+
+        }
     }
 }

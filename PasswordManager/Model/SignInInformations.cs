@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace PasswordManager.Model
 {
-    class SignInInformations:ObservableObject
+    public class SignInInformations:ObservableObject
     {
         public SignInInformations()
         {
