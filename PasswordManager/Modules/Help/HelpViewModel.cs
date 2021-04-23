@@ -13,14 +13,7 @@ namespace PasswordManager.Modules
     {
         public HelpViewModel()
         {
-            CloseWindowCommand = new MvvmHelpers.Commands.AsyncCommand(CloseWindow);
-        }
 
-        public ICommand CloseWindowCommand { get; set; }
-
-        private async Task CloseWindow()
-        {
-            await NavigationService.CloseWindow();
         }
     }
 }

@@ -27,8 +27,8 @@ namespace PasswordManager.Modules
             OriginalListBoxItemSource = new List<SignInInformations>
             {
 
-                new SignInInformations() {Source = "Steam", Username = "Hugofrn1992", EncryptedPassword = "teste" },
-                new SignInInformations() { Source = "Steam", Username = "Jão", EncryptedPassword = "jao1234" }
+                new SignInInformations("Steam", "Hugofrn1992", "teste"),
+                new SignInInformations("Steam", "Jão", "jao1234") 
             };
             ListBoxItemSource = new ObservableRangeCollection<SignInInformations>(OriginalListBoxItemSource.ToList());
             TextChangedCommand = new MvvmHelpers.Commands.AsyncCommand(TextChanged);

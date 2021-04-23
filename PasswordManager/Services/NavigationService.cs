@@ -13,7 +13,6 @@ namespace PasswordManager.Services
 {
     public static class NavigationService
     {
-        private static List<Window> Windows = new List<Window>();
         public static async Task NavigateAsync<T>(params object[] parameters) where T: BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;
@@ -41,21 +40,12 @@ namespace PasswordManager.Services
             ConstructorInfo ViewConstructor = ViewType.GetConstructor(Type.EmptyTypes);
             Window View = (Window)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
-            Windows.Add(View);
             View.Show();
         }
 
         public static async Task CloseAllWindows()
         {
-            foreach (Window window in Windows)
-            {
-                window.Close();
-            }
-            Windows.Clear();
-        }
-        public static async Task CloseWindow()
-        {  
-
+            App.Current.Shutdown();
         }
     }
 }

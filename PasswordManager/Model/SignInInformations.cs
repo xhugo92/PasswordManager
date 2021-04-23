@@ -1,8 +1,5 @@
 ﻿using MvvmHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using PasswordManager.Services;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -10,17 +7,38 @@ namespace PasswordManager.Model
 {
     public class SignInInformations:ObservableObject
     {
-        public SignInInformations()
+        public SignInInformations(string Source, string Username, string Password)
         {
             VisibilityState = "S";
             PasswordVisibility = Visibility.Hidden;
+            this.Source = Source;
+            this.Username = Username;
+            EncryptedPassword = CryptographyService.EncryptData(Password);
         }
 
-        public string Source { get; set; }
+        private string source;
 
-        public string Username { get; set; }
+        public string Source
+        {
+            get { return source; }
+            set { SetProperty( ref source, value); }
+        }
 
-        public string EncryptedPassword { get; set; }
+        private string username;
+
+        public string Username
+        {
+            get { return username; }
+            set { SetProperty(ref username, value); }
+        }
+
+        private string encryptedPassword;
+
+        public string EncryptedPassword
+        {
+            get { return encryptedPassword; }
+            set { SetProperty(ref encryptedPassword , value); }
+        }
 
         private Visibility passwordVisibility;
 
