@@ -24,12 +24,7 @@ namespace PasswordManager.Modules
                 new ComboBoxItens("Username", false, FiltertypeEnum.Username)
             };
             SelectedItem = ComboBoxItemSource[0];
-            OriginalListBoxItemSource = new List<SignInInformations>
-            {
-
-                new SignInInformations("Steam", "Hugofrn1992", "teste"),
-                new SignInInformations("Steam", "Jão", "jao1234") 
-            };
+            OriginalListBoxItemSource = DatabaseSimulator.Server.ToList();
             ListBoxItemSource = new ObservableRangeCollection<SignInInformations>(OriginalListBoxItemSource.ToList());
             TextChangedCommand = new MvvmHelpers.Commands.AsyncCommand(TextChanged);
             ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformations>(ChangeSignInInformation);
@@ -66,6 +61,7 @@ namespace PasswordManager.Modules
         private async Task DeleteEntry(SignInInformations signInInformations)
         {
             ListBoxItemSource.Remove(signInInformations);
+            OriginalListBoxItemSource.Remove(signInInformations);
         }
 
         public ICommand TextChangedCommand { get; set; }

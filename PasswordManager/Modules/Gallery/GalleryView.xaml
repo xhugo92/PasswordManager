@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:c="clr-namespace:PasswordManager.Converters"
              xmlns:local="clr-namespace:PasswordManager.Modules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="View">
+    <UserControl.Resources>
+        <c:CrypthographyConverter x:Key="CrypthographyConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -60,7 +64,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" >
                                     <TextBlock Text="Password: "/>
-                                    <TextBlock Text="{Binding EncryptedPassword}" TextWrapping="Wrap" 
+                                    <TextBlock Text="{Binding EncryptedPassword, Converter={StaticResource CrypthographyConverter}}" TextWrapping="Wrap" 
                                                Visibility="{Binding PasswordVisibility}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">

@@ -5,15 +5,22 @@ using System.Windows;
 
 namespace PasswordManager.Model
 {
-    public class SignInInformations:ObservableObject
+    public class SignInInformations : ObservableObject
     {
-        public SignInInformations(string Source, string Username, string Password)
+        public SignInInformations(string Source, string Username, string Password, bool isEncrypted)
         {
             VisibilityState = "S";
             PasswordVisibility = Visibility.Hidden;
             this.Source = Source;
             this.Username = Username;
-            EncryptedPassword = CryptographyService.EncryptData(Password);
+            if (isEncrypted)
+            {
+                EncryptedPassword = Password;
+            }
+            else
+            {
+                EncryptedPassword = CryptographyService.EncryptData(Password);
+            }
         }
 
         private string source;
@@ -21,7 +28,7 @@ namespace PasswordManager.Model
         public string Source
         {
             get { return source; }
-            set { SetProperty( ref source, value); }
+            set { SetProperty(ref source, value); }
         }
 
         private string username;
@@ -37,7 +44,7 @@ namespace PasswordManager.Model
         public string EncryptedPassword
         {
             get { return encryptedPassword; }
-            set { SetProperty(ref encryptedPassword , value); }
+            set { SetProperty(ref encryptedPassword, value); }
         }
 
         private Visibility passwordVisibility;

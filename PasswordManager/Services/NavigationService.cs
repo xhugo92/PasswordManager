@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MvvmHelpers;
@@ -13,7 +12,11 @@ namespace PasswordManager.Services
 {
     public static class NavigationService
     {
-        public static async Task NavigateAsync<T>(params object[] parameters) where T: BaseViewModel
+        public static bool HasPopupOpen = false;
+
+        private static List<Window> Popups = new List<Window>();
+
+        public static async Task NavigateAsync<T>(params object[] parameters) where T : BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;
             Type ViewType = Type.GetType(name.Replace("ViewModel", "View"));
@@ -29,7 +32,7 @@ namespace PasswordManager.Services
             MainWindowView.Current.Content.Children.Add(View);
         }
 
-        public static async Task OpenNewWindowAsync<T>(params object[] parameters) where T: BaseViewModel
+        public static async Task OpenNewWindowAsync<T>(params object[] parameters) where T : BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;
             Type ViewType = Type.GetType(name.Replace("ViewModel", "View"));
@@ -40,7 +43,29 @@ namespace PasswordManager.Services
             ConstructorInfo ViewConstructor = ViewType.GetConstructor(Type.EmptyTypes);
             Window View = (Window)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
+            if (typeof(T) == typeof(GenericPopupViewModel) || typeof(T) == typeof(NotificationPopupViewModel))
+            {
+                Popups.Add(View);
+            }
             View.Show();
+        }
+
+        public static async Task ClosePopup<T>() where T : BaseViewModel
+        {
+            Window openedPopup = null;
+            foreach (Window popup in Popups)
+            {
+                if (popup.DataContext.GetType() == typeof(T))
+                {
+                    openedPopup = popup;
+                    break;
+                }
+            }
+            if (openedPopup != null)
+            {
+                Popups.Remove(openedPopup);
+                openedPopup.Close();
+            }
         }
 
         public static async Task CloseAllWindows()
