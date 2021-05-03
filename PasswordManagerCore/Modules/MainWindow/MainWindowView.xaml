@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="300">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding NavigateHomeCommand}"/>
+            <i:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseAllWindowsCommand}"/>

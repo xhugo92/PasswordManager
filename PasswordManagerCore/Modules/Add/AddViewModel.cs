@@ -13,7 +13,10 @@ namespace PasswordManagerCore.Modules
         {
             AddToDatabaseCommand = new MvvmHelpers.Commands.AsyncCommand(AddToDatabase);
             ClearFieldsCommand = new MvvmHelpers.Commands.Command(ClearFields);
+            DbContext = new DatabaseContext();
         }
+
+        public DatabaseContext DbContext { get; set; }
         public ICommand AddToDatabaseCommand { get; set; }
 
         public async Task AddToDatabase()
@@ -28,8 +31,8 @@ namespace PasswordManagerCore.Modules
                     return;
                 }
                 NavigationService.HasPopupOpen = true;
-                App.DatabaseContext.SignInInformations.Add(new SignInInformation(SourceText, UsernameText, PasswordText, false));
-                int Sucess = App.DatabaseContext.SaveChanges();
+                DbContext.SignInInformations.Add(new SignInInformation(SourceText, UsernameText, PasswordText, false));
+                int Sucess = await DbContext.SaveChangesAsync();
                 if (Sucess != 1)
                 {
                     await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Houve um erro ao salvar as informações, por favor verifique e tente novamente", "Ok");

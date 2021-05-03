@@ -46,6 +46,7 @@ namespace PasswordManagerCore.Services
             if (typeof(T) == typeof(GenericPopupViewModel) || typeof(T) == typeof(NotificationPopupViewModel))
             {
                 Popups.Add(View);
+                View.Owner = MainWindowView.Current;
             }
             View.Show();
         }

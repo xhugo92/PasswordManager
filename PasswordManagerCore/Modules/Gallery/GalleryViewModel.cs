@@ -2,8 +2,10 @@
 using PasswordManagerCore.Database;
 using PasswordManagerCore.Model;
 using PasswordManagerCore.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -21,14 +23,16 @@ namespace PasswordManagerCore.Modules
             };
             SelectedItem = ComboBoxItemSource[0];
             OriginalListBoxItemSource = new List<SignInInformation>();
-            OriginalListBoxItemSource.AddRange(App.DatabaseContext.SignInInformations.ToList());
+            DbContext = new DatabaseContext();
+            OriginalListBoxItemSource.AddRange(DbContext.SignInInformations.ToList());
             ListBoxItemSource = new ObservableRangeCollection<SignInInformation>(OriginalListBoxItemSource.ToList());
-            TextChangedCommand = new MvvmHelpers.Commands.AsyncCommand(TextChanged);
-            ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(ChangeSignInInformation);
-            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(ChangePasswordVisibility);
+            TextChangedCommand = new MvvmHelpers.Commands.Command(TextChanged);
+            ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.Command<SignInInformation>(ChangePasswordVisibility);
             DeleteEntryCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(DeleteEntry);
+            ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(ChangeSignInInformation);
 
         }
+        public DatabaseContext DbContext { get; set; }
 
         public ICommand ChangeSignInInformationCommand { get; set; }
 
@@ -39,7 +43,7 @@ namespace PasswordManagerCore.Modules
 
         public ICommand ChangePasswordVisibilityCommand { get; set; }
 
-        private async Task ChangePasswordVisibility(SignInInformation SignInInformation)
+        private void ChangePasswordVisibility(SignInInformation SignInInformation)
         {
             if (SignInInformation.PasswordVisibility == Visibility.Hidden)
             {
@@ -57,13 +61,25 @@ namespace PasswordManagerCore.Modules
 
         private async Task DeleteEntry(SignInInformation SignInInformation)
         {
-            ListBoxItemSource.Remove(SignInInformation);
-            OriginalListBoxItemSource.Remove(SignInInformation);
+            //TODO por que está abrindo duas janelas?
+            if (!NavigationService.HasPopupOpen)
+            {
+
+                NavigationService.HasPopupOpen = true;
+                await NavigationService.OpenNewWindowAsync<GenericPopupViewModel>("Deseja realmente deletar essas informações?", "Deletar", "Cancelar", new Action(async () =>
+                {
+                    ListBoxItemSource.Remove(SignInInformation);
+                    OriginalListBoxItemSource.Remove(SignInInformation);
+                    DbContext.SignInInformations.Remove(SignInInformation);
+                    await DbContext.SaveChangesAsync();
+                }));
+            }
         }
+
 
         public ICommand TextChangedCommand { get; set; }
 
-        private async Task TextChanged()
+        private void TextChanged()
         {
             if (string.IsNullOrWhiteSpace(SearchText))
             {

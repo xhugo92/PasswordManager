@@ -1,4 +1,5 @@
 ﻿using MvvmHelpers;
+using PasswordManagerCore.Services;
 using System;
 using System.Windows.Input;
 
@@ -13,6 +14,17 @@ namespace PasswordManagerCore.Modules
             this.ContentCancelButton = ContentCancelButton;
             this.OkButtonAction = OkButtonAction;
             this.CancelButtonAction = CancelButtonAction;
+            OkButtonCommand = new MvvmHelpers.Commands.Command(OkButton);
+            CancelButtonCommand = new MvvmHelpers.Commands.Command(CancelButton);
+        }
+
+        public GenericPopupViewModel(string message, string ContentOkButton, string ContentCancelButton, Action OkButtonAction)
+        {
+            Message = message;
+            this.ContentOkButton = ContentOkButton;
+            this.ContentCancelButton = ContentCancelButton;
+            this.OkButtonAction = OkButtonAction;
+            CancelButtonAction = new Action(async ()=> { NavigationService.HasPopupOpen = false; await NavigationService.ClosePopup<GenericPopupViewModel>(); });
             OkButtonCommand = new MvvmHelpers.Commands.Command(OkButton);
             CancelButtonCommand = new MvvmHelpers.Commands.Command(CancelButton);
         }

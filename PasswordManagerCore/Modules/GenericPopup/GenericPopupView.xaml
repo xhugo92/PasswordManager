@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PasswordManagerCore.Modules"
         mc:Ignorable="d"
         Title="GenericPopup" Height="auto" Width="200" SizeToContent="Height"
-        WindowStyle="None">
+        WindowStyle="None" WindowStartupLocation="CenterOwner" LostKeyboardFocus="RestoreFocus" Closing="StartClosing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=" auto"/>

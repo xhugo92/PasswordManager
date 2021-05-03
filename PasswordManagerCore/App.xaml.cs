@@ -8,10 +8,6 @@ namespace PasswordManagerCore
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            DatabaseContext = new DatabaseContext();
-        }
-        public static DatabaseContext DatabaseContext { get; private set; }
+        
     }
 }

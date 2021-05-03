@@ -7,10 +7,15 @@ namespace PasswordManagerCore.Database
     {
         public DatabaseContext() : base()
         {
-            Database.EnsureCreated();
+
         }
 
         public DbSet<SignInInformation> SignInInformations { get; set; }
+
+        public void EnsureCreation()
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

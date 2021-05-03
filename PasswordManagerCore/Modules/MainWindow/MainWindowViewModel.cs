@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
+using PasswordManagerCore.Database;
 using PasswordManagerCore.Services;
 
 namespace PasswordManagerCore.Modules
 {
-    public class MainWindowViewModel :BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
         public MainWindowViewModel()
         {
@@ -15,6 +16,19 @@ namespace PasswordManagerCore.Modules
             NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
             OpenHelpWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(OpenHelpWindows);
             CloseAllWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(CloseAllWindows);
+            OnLoadCommand = new MvvmHelpers.Commands.AsyncCommand(OnLoad);
+        }
+
+        public ICommand OnLoadCommand { get; set; }
+
+        private async Task OnLoad()
+        {
+            await NavigateHome();
+            await Task.Run(() =>
+            {
+                DatabaseContext DbContext = new DatabaseContext();
+                DbContext.EnsureCreation();
+            });
         }
 
         public ICommand CloseAllWindowsCommand { get; set; }
