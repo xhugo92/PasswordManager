@@ -53,6 +53,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal" Grid.Row="0" >
                                     <TextBlock Text="Source: "/>
@@ -67,7 +68,7 @@
                                     <TextBlock Text="{Binding EncryptedPassword, Converter={StaticResource CrypthoConverter}}" TextWrapping="Wrap" 
                                                Visibility="{Binding PasswordVisibility}"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+                                <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
                                     <Button Command="{Binding DataContext.ChangePasswordVisibilityCommand, 
                                         ElementName=View}" CommandParameter="{Binding .}">
                                         <TextBlock Text="{Binding VisibilityState}"/>
@@ -79,6 +80,10 @@
                                     <Button Command="{Binding DataContext.DeleteEntryCommand, ElementName=View}"
                                             CommandParameter="{Binding .}">
                                         <TextBlock Text="E"/>
+                                    </Button>
+                                    <Button Command="{Binding DataContext.SendToClypboardCommand, ElementName=View}"
+                                            CommandParameter="{Binding .}">
+                                        <TextBlock Text="Co"/>
                                     </Button>
                                 </StackPanel>
                             </Grid>

@@ -30,18 +30,27 @@ namespace PasswordManagerCore.Modules
             ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.Command<SignInInformation>(ChangePasswordVisibility);
             DeleteEntryCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(DeleteEntry);
             ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(ChangeSignInInformation);
+            SendToClypboardCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(SendToClypboard);
 
         }
-        public DatabaseContext DbContext { get; set; }
+        #region Commands
+        public ICommand SendToClypboardCommand { get; private set; }
 
-        public ICommand ChangeSignInInformationCommand { get; set; }
+        private async Task SendToClypboard(SignInInformation signInInformation)
+        {
+            Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword));
+            await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Enviado para a zona de transferencia", "Ok", 2);
+        }
+
+
+        public ICommand ChangeSignInInformationCommand { get; private set; }
 
         private async Task ChangeSignInInformation(SignInInformation SignInInformation)
         {
             await NavigationService.OpenNewWindowAsync<EditInformationViewModel>(SignInInformation);
         }
 
-        public ICommand ChangePasswordVisibilityCommand { get; set; }
+        public ICommand ChangePasswordVisibilityCommand { get; private set; }
 
         private void ChangePasswordVisibility(SignInInformation SignInInformation)
         {
@@ -57,7 +66,7 @@ namespace PasswordManagerCore.Modules
             }
         }
 
-        public ICommand DeleteEntryCommand { get; set; }
+        public ICommand DeleteEntryCommand { get; private set; }
 
         private async Task DeleteEntry(SignInInformation SignInInformation)
         {
@@ -98,7 +107,9 @@ namespace PasswordManagerCore.Modules
                 ListBoxItemSource.ReplaceRange(Filter);
             }
         }
-
+        #endregion
+        #region Variables
+        public DatabaseContext DbContext { get; set; }
         private string searchText;
 
         public string SearchText
@@ -112,7 +123,6 @@ namespace PasswordManagerCore.Modules
         public List<ComboBoxItens> ComboBoxItemSource { get; set; }
         public ObservableRangeCollection<SignInInformation> ListBoxItemSource { get; set; }
         private List<SignInInformation> OriginalListBoxItemSource;
-
-
+        #endregion
     }
 }

@@ -14,7 +14,8 @@ namespace PasswordManagerCore.Services
     {
         public static bool HasPopupOpen = false;
 
-        private static List<Window> Popups = new List<Window>();
+        public static List<Window> Popups { get; } = new List<Window>();
+
 
         public static async Task NavigateAsync<T>(params object[] parameters) where T : BaseViewModel
         {
@@ -53,6 +54,17 @@ namespace PasswordManagerCore.Services
 
         public static async Task ClosePopup<T>() where T : BaseViewModel
         {
+            Window openedPopup = FindPopupWindow<T>();
+            if (openedPopup != null)
+            {
+                Popups.Remove(openedPopup);
+                openedPopup.Close();
+            }
+        }
+
+        public static Window FindPopupWindow<T>() where T : BaseViewModel
+        {
+
             Window openedPopup = null;
             foreach (Window popup in Popups)
             {
@@ -62,11 +74,8 @@ namespace PasswordManagerCore.Services
                     break;
                 }
             }
-            if (openedPopup != null)
-            {
-                Popups.Remove(openedPopup);
-                openedPopup.Close();
-            }
+            return openedPopup;
+
         }
 
         public static async Task CloseAllWindows()

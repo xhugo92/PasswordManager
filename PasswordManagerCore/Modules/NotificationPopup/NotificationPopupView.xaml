@@ -13,6 +13,12 @@
         <i:EventTrigger EventName="LostKeyboardFocus">
             <i:InvokeCommandAction Command="{Binding CloseNotificationPopupCommand}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding StartTimerCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding NotificationMessage}" Margin="5" TextWrapping="Wrap" HorizontalAlignment="Center"

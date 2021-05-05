@@ -39,9 +39,10 @@
             <TextBlock Text="Senha: " TextWrapping="Wrap" HorizontalAlignment="Left" />
             <TextBox Grid.Column="1" Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Adicionar" Command="{Binding AddToDatabaseCommand}" Margin="5"/>
             <Button Content="Limpar" Command="{Binding ClearFieldsCommand}" Margin="5"/>
+            <Button Content="Gerar Senha" Command="{Binding GeneratePasswordCommand}" Margin="5"/>
         </StackPanel>
 
     </Grid>

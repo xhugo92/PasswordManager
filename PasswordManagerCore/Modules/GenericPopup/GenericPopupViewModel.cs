@@ -1,6 +1,7 @@
 ﻿using MvvmHelpers;
 using PasswordManagerCore.Services;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
@@ -14,8 +15,7 @@ namespace PasswordManagerCore.Modules
             this.ContentCancelButton = ContentCancelButton;
             this.OkButtonAction = OkButtonAction;
             this.CancelButtonAction = CancelButtonAction;
-            OkButtonCommand = new MvvmHelpers.Commands.Command(OkButton);
-            CancelButtonCommand = new MvvmHelpers.Commands.Command(CancelButton);
+            InitializeCommand();
         }
 
         public GenericPopupViewModel(string message, string ContentOkButton, string ContentCancelButton, Action OkButtonAction)
@@ -25,9 +25,16 @@ namespace PasswordManagerCore.Modules
             this.ContentCancelButton = ContentCancelButton;
             this.OkButtonAction = OkButtonAction;
             CancelButtonAction = new Action(async ()=> { NavigationService.HasPopupOpen = false; await NavigationService.ClosePopup<GenericPopupViewModel>(); });
-            OkButtonCommand = new MvvmHelpers.Commands.Command(OkButton);
+            InitializeCommand();
+            
+        }
+
+        private void InitializeCommand ()
+        {
+            OkButtonCommand = new MvvmHelpers.Commands.AsyncCommand(OkButton);
             CancelButtonCommand = new MvvmHelpers.Commands.Command(CancelButton);
         }
+
 
         public ICommand CancelButtonCommand { get; set; }
 
@@ -40,9 +47,11 @@ namespace PasswordManagerCore.Modules
 
         public ICommand OkButtonCommand { get; set; }
 
-        public void OkButton()
+        public async Task OkButton()
         {
             OkButtonAction.Invoke();
+            NavigationService.HasPopupOpen = false; 
+            await NavigationService.ClosePopup<GenericPopupViewModel>();
         }
 
         public Action OkButtonAction { get; set; }

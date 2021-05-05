@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Linq;
 
 namespace PasswordManagerCore.Modules
 {
@@ -13,23 +16,49 @@ namespace PasswordManagerCore.Modules
         public GenericPopupView()
         {
             InitializeComponent();
-            IsClosing = false;
         }
-        public bool IsClosing { get; set; }
 
+        private bool isClosing = false;
+        
         private void RestoreFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            if (e != null && e.NewFocus != this && !IsClosing)
+            if(isClosing)
+            {
+                return;
+            }
+            var VisualChildren = FindVisualChildren<FrameworkElement>(this);
+            var ChildHasFocus  = VisualChildren.FirstOrDefault(Visual=> Visual == e.NewFocus);
+            if (ChildHasFocus ==null && e != null && e.NewFocus != this )
             {
                 Keyboard.Focus(this);
                 SystemSounds.Beep.Play();
             }
-
         }
 
-        private void StartClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ClosingEvent(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            IsClosing = true;
+            isClosing = true;
         }
+
+        private IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
     }
 }
