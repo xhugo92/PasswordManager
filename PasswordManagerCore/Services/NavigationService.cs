@@ -44,9 +44,9 @@ namespace PasswordManagerCore.Services
             ConstructorInfo ViewConstructor = ViewType.GetConstructor(Type.EmptyTypes);
             Window View = (Window)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
+            Popups.Add(View);
             if (typeof(T) == typeof(GenericPopupViewModel) || typeof(T) == typeof(NotificationPopupViewModel))
             {
-                Popups.Add(View);
                 View.Owner = MainWindowView.Current;
             }
             View.Show();
