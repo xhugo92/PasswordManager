@@ -1,6 +1,7 @@
 ﻿using MvvmHelpers;
 using PasswordManagerCore.Services;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows;
 
 namespace PasswordManagerCore.Model
@@ -28,6 +29,8 @@ namespace PasswordManagerCore.Model
             this.Source = Source;
             this.Username = Username;
             this.EncryptedPassword = EncryptedPassword;
+            this.PasswordVisibility = Visibility.Hidden;
+            this.VisibilityState = "S";
         }
 
         [Key]
@@ -59,6 +62,7 @@ namespace PasswordManagerCore.Model
 
         private Visibility passwordVisibility;
 
+        [NotMapped]
         public Visibility PasswordVisibility
         {
             get { return passwordVisibility; }
@@ -67,6 +71,7 @@ namespace PasswordManagerCore.Model
 
         private string visibilityState;
 
+        [NotMapped]
         public string VisibilityState
         {
             get { return visibilityState; }
