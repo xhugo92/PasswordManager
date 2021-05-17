@@ -8,11 +8,11 @@ using System.Windows.Media;
 namespace PasswordManagerCore.Modules
 {
     /// <summary>
-    /// Lógica interna para EditInformationView.xaml
+    /// Lógica interna para EditCryptographyKeyView.xaml
     /// </summary>
-    public partial class EditInformationView : Window
+    public partial class EditCryptographyKeyView : Window
     {
-        public EditInformationView()
+        public EditCryptographyKeyView()
         {
             InitializeComponent();
         }

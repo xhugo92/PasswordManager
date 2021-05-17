@@ -24,12 +24,12 @@ namespace PasswordManagerCore.Modules
             this.ContentOkButton = ContentOkButton;
             this.ContentCancelButton = ContentCancelButton;
             this.OkButtonAction = OkButtonAction;
-            CancelButtonAction = new Action(async ()=> { NavigationService.HasPopupOpen = false; await NavigationService.ClosePopup<GenericPopupViewModel>(); });
+            CancelButtonAction = new Action(async () => { NavigationService.HasPopupOpen = false; await NavigationService.ClosePopup<GenericPopupViewModel>(); });
             InitializeCommand();
-            
+
         }
 
-        private void InitializeCommand ()
+        private void InitializeCommand()
         {
             OkButtonCommand = new MvvmHelpers.Commands.AsyncCommand(OkButton);
             CancelButtonCommand = new MvvmHelpers.Commands.Command(CancelButton);
@@ -50,7 +50,7 @@ namespace PasswordManagerCore.Modules
         public async Task OkButton()
         {
             OkButtonAction.Invoke();
-            NavigationService.HasPopupOpen = false; 
+            NavigationService.HasPopupOpen = false;
             await NavigationService.ClosePopup<GenericPopupViewModel>();
         }
 

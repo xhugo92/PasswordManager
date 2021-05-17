@@ -2,7 +2,7 @@
 
 namespace PasswordManagerCore.Modules
 {
-    class HelpViewModel:BaseViewModel
+    class HelpViewModel : BaseViewModel
     {
     }
 }

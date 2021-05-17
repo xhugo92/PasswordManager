@@ -1,9 +1,9 @@
-﻿using PasswordManagerCore.Model;
-using MvvmHelpers;
+﻿using MvvmHelpers;
 using PasswordManagerCore.Database;
-using System.Windows.Input;
+using PasswordManagerCore.Model;
 using PasswordManagerCore.Services;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
 {

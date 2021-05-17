@@ -1,13 +1,13 @@
 ﻿using MvvmHelpers;
-using PasswordManagerCore.Services;
-using System.Windows.Input;
-using PasswordManagerCore.Model;
-using System.Threading.Tasks;
+using PasswordManagerCore.Constants;
 using PasswordManagerCore.Database;
+using PasswordManagerCore.Model;
+using PasswordManagerCore.Services;
 using System.Linq;
 using System.Security.Cryptography;
-using PasswordManagerCore.Constants;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
 {
@@ -31,7 +31,7 @@ namespace PasswordManagerCore.Modules
               .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
             PasswordText = RandomPassword;
         }
-        
+
         public ICommand AddToDatabaseCommand { get; set; }
 
         public async Task AddToDatabase()
@@ -45,7 +45,7 @@ namespace PasswordManagerCore.Modules
                     await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Por favor preencha todos os campos", "Ok", 5);
                     return;
                 }
-               await AddInDatabase(SourceText, UsernameText, PasswordText, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
+                await AddInDatabase(SourceText, UsernameText, PasswordText, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
 
             }
         }

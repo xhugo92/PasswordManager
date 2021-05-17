@@ -12,7 +12,7 @@
             <i:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding CloseAllWindowsCommand}"/>
+            <i:InvokeCommandAction Command="{Binding CloseMainWindowCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.InputBindings>

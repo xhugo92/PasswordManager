@@ -1,5 +1,4 @@
-﻿using PasswordManagerCore.Database;
-using System.Windows;
+﻿using System.Windows;
 
 namespace PasswordManagerCore
 {
@@ -8,6 +7,6 @@ namespace PasswordManagerCore
     /// </summary>
     public partial class App : Application
     {
-        
+
     }
 }

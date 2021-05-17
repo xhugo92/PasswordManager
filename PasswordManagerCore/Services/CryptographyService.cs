@@ -1,6 +1,10 @@
-﻿using System;
+﻿using PasswordManagerCore.Database;
+using PasswordManagerCore.Model;
+using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PasswordManagerCore.Services
 {
@@ -9,9 +13,8 @@ namespace PasswordManagerCore.Services
         //TODO: Colocar essa chave como configuravel
         private static readonly string Key = "stringDeEncriptação";
 
-        public static string EncryptData(string textData)
+        public static string EncryptData(string textData, string Encryptionkey)
         {
-            string Encryptionkey = Key;
             RijndaelManaged objrij = new RijndaelManaged();
             //set the mode for operation of the algorithm   
             objrij.Mode = CipherMode.CBC;
@@ -43,9 +46,8 @@ namespace PasswordManagerCore.Services
             return Convert.ToBase64String(objtransform.TransformFinalBlock(textDataByte, 0, textDataByte.Length));
         }
 
-        public static string DecryptData(string EncryptedText)
+        public static string DecryptData(string EncryptedText, string Encryptionkey)
         {
-            string Encryptionkey = Key;
             RijndaelManaged objrij = new RijndaelManaged();
             objrij.Mode = CipherMode.CBC;
             objrij.Padding = PaddingMode.PKCS7;
@@ -65,6 +67,22 @@ namespace PasswordManagerCore.Services
             objrij.IV = EncryptionkeyBytes;
             byte[] TextByte = objrij.CreateDecryptor().TransformFinalBlock(encryptedTextByte, 0, encryptedTextByte.Length);
             return Encoding.UTF8.GetString(TextByte);
+        }
+
+        public static Task<int> ChangeAllPasswordKeys(string oldKey, string newKey)
+        {
+            return Task.Run(() =>
+            {
+                DatabaseContext DbContext = new DatabaseContext();
+                int allentries = DbContext.SignInInformations.ToList().Count;
+                foreach (SignInInformation signInInformation in DbContext.SignInInformations)
+                {
+                    string Password = DecryptData(signInInformation.EncryptedPassword, oldKey);
+                    signInInformation.EncryptedPassword = EncryptData(Password, newKey);
+                    DbContext.Update(signInInformation);
+                }
+                return DbContext.SaveChangesAsync();
+            });
         }
     }
 }

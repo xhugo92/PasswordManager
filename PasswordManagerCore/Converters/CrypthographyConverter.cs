@@ -1,4 +1,5 @@
-﻿using PasswordManagerCore.Services;
+﻿using PasswordManagerCore.Resources;
+using PasswordManagerCore.Services;
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -11,7 +12,7 @@ namespace PasswordManagerCore.Converters
         {
             if (value is string Password)
             {
-                return CryptographyService.DecryptData(Password);
+                return CryptographyService.DecryptData(Password, ConfigurationVariables.CrypthographyKey);
             }
             return null;
         }
@@ -20,7 +21,7 @@ namespace PasswordManagerCore.Converters
         {
             if (value is string Password)
             {
-                return CryptographyService.EncryptData(Password);
+                return CryptographyService.EncryptData(Password, ConfigurationVariables.CrypthographyKey);
             }
             return null;
         }

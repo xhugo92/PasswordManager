@@ -1,11 +1,11 @@
 ﻿using MvvmHelpers;
 using PasswordManagerCore.Database;
 using PasswordManagerCore.Model;
+using PasswordManagerCore.Resources;
 using PasswordManagerCore.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -38,7 +38,7 @@ namespace PasswordManagerCore.Modules
 
         private async Task SendToClypboard(SignInInformation signInInformation)
         {
-            Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword));
+            Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword, ConfigurationVariables.CrypthographyKey));
             await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Enviado para a zona de transferencia", "Ok", 2);
         }
 

@@ -1,0 +1,26 @@
+﻿<Window x:Class="PasswordManagerCore.Modules.EditCryptographyKeyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PasswordManagerCore.Modules"
+        mc:Ignorable="d"
+        Title="EditCryptographyKeyView" Height="auto" Width="300"
+        SizeToContent="Height" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Closing="ClosingEvent" LostKeyboardFocus="RestoreFocus">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Chave Atual: " Margin="5"/>
+        <TextBox Grid.Column="1" Margin="5" Text="{Binding KeyText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="5" Command="{Binding ChangeKeyCommand}">
+            <TextBlock Text="Pronto" />
+        </Button>
+    </Grid>
+</Window>

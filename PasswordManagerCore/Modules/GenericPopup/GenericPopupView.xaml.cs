@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Linq;
 
 namespace PasswordManagerCore.Modules
 {
@@ -19,16 +18,16 @@ namespace PasswordManagerCore.Modules
         }
 
         private bool isClosing = false;
-        
+
         private void RestoreFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            if(isClosing)
+            if (isClosing)
             {
                 return;
             }
             var VisualChildren = FindVisualChildren<FrameworkElement>(this);
-            var ChildHasFocus  = VisualChildren.FirstOrDefault(Visual=> Visual == e.NewFocus);
-            if (ChildHasFocus ==null && e != null && e.NewFocus != this )
+            var ChildHasFocus = VisualChildren.FirstOrDefault(Visual => Visual == e.NewFocus);
+            if (ChildHasFocus == null && e != null && e.NewFocus != this)
             {
                 Keyboard.Focus(this);
                 SystemSounds.Beep.Play();

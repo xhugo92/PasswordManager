@@ -1,12 +1,12 @@
-﻿using PasswordManagerCore.Modules;
+﻿using MvvmHelpers;
+using PasswordManagerCore.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using MvvmHelpers;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PasswordManagerCore.Services
 {
@@ -45,10 +45,7 @@ namespace PasswordManagerCore.Services
             Window View = (Window)ViewConstructor.Invoke(null);
             View.DataContext = ViewModel;
             Popups.Add(View);
-            if (typeof(T) == typeof(GenericPopupViewModel) || typeof(T) == typeof(NotificationPopupViewModel))
-            {
-                View.Owner = MainWindowView.Current;
-            }
+            View.Owner = MainWindowView.Current;
             View.Show();
         }
 

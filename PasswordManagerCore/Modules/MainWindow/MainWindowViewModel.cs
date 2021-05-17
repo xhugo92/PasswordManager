@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
-using MvvmHelpers;
+﻿using MvvmHelpers;
 using PasswordManagerCore.Database;
+using PasswordManagerCore.Resources;
 using PasswordManagerCore.Services;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
 {
@@ -15,7 +17,7 @@ namespace PasswordManagerCore.Modules
             NavigateGalleryCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateGallery);
             NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
             OpenHelpWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(OpenHelpWindows);
-            CloseAllWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(CloseAllWindows);
+            CloseMainWindowCommand = new MvvmHelpers.Commands.AsyncCommand(CloseMainWindow);
             OnLoadCommand = new MvvmHelpers.Commands.AsyncCommand(OnLoad);
         }
 
@@ -23,18 +25,20 @@ namespace PasswordManagerCore.Modules
 
         private async Task OnLoad()
         {
-            await NavigateHome();
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 DatabaseContext DbContext = new DatabaseContext();
                 DbContext.EnsureCreation();
             });
+            StartupService.Startup();
+            await NavigateHome();
         }
 
-        public ICommand CloseAllWindowsCommand { get; set; }
+        public ICommand CloseMainWindowCommand { get; set; }
 
-        private async Task CloseAllWindows()
+        private async Task CloseMainWindow()
         {
+            System.IO.File.WriteAllBytes("config.cfg", Encoding.ASCII.GetBytes(ConfigurationVariables.CrypthographyKey));
             await NavigationService.CloseAllWindows();
         }
 
