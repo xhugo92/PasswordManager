@@ -1,5 +1,7 @@
-﻿using PasswordManagerCore.Resources;
-using System.Text;
+﻿using PasswordManagerCore.Constants;
+using PasswordManagerCore.Resources;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace PasswordManagerCore.Services
 {
@@ -7,8 +9,18 @@ namespace PasswordManagerCore.Services
     {
         public static void Startup()
         {
-            byte[] lines = System.IO.File.ReadAllBytes("config.cfg");
-            ConfigurationVariables.CrypthographyKey = Encoding.ASCII.GetString(lines);
+            string key;
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines("config");
+                key = lines[0];
+            }
+            catch
+            {
+                key = new string(Enumerable.Repeat(PasswordCharConstants.chars, 12)
+              .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
+            }
+            ConfigurationVariables.CrypthographyKey = key;
         }
     }
 }

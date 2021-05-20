@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <c:CrypthographyConverter x:Key="CrypthoConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

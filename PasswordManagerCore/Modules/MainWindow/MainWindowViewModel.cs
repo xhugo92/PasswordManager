@@ -38,7 +38,7 @@ namespace PasswordManagerCore.Modules
 
         private async Task CloseMainWindow()
         {
-            System.IO.File.WriteAllBytes("config.cfg", Encoding.ASCII.GetBytes(ConfigurationVariables.CrypthographyKey));
+            System.IO.File.WriteAllText("config", ConfigurationVariables.CrypthographyKey);
             await NavigationService.CloseAllWindows();
         }
 

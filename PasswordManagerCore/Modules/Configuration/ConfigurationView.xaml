@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PasswordManagerCore.Modules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -16,5 +16,10 @@
             <TextBlock Text="Modificar a chave de criptografia" Margin="5"/>
             <Button Content="Modificar" Command="{Binding ChangeCryptographyCommand}" Margin="5"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBlock Text="{Binding MasterKeyText}" Margin="5"/>
+            <Button Content="{Binding MasterKeyButton}" Command="{Binding ConfigMasterKeyCommand}" Margin="5"/>
+        </StackPanel>
+        
     </Grid>
 </UserControl>
