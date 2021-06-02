@@ -29,13 +29,13 @@
             <TextBlock Text="Repita a senha: "/>
             <PasswordBox Grid.Column="1" x:Name="VerificationBox" PasswordChanged="PasswordChangedEvent"/>
         </Grid>
-        <TextBlock x:Name="Result" Grid.Row="2"/>
+        <TextBlock x:Name="Result" Text="{Binding ResultText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"/>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Ok" Margin="5" Click="SetMasterKeyEvent" x:Name="OkButton" IsEnabled="False"/>
+            <Button Content="Ok" Margin="5" Click="SetMasterKeyEvent" IsEnabled="{Binding IsEnabled}"/>
             <Button Content="Cancelar" Margin="5" Grid.Column="2" Command="{Binding ReturnButtonCommand}"/>
         </Grid>
     </Grid>

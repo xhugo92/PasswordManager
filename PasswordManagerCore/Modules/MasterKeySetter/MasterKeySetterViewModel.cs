@@ -14,6 +14,15 @@ namespace PasswordManagerCore.Modules
         public MasterKeySetterViewModel()
         {
             ReturnButtonCommand = new MvvmHelpers.Commands.AsyncCommand(ReturnButton);
+            IsEnabled = false;
+        }
+
+        private bool isEnabled;
+
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set { SetProperty(ref isEnabled, value); }
         }
 
         public ICommand ReturnButtonCommand { get; set; }
@@ -23,9 +32,28 @@ namespace PasswordManagerCore.Modules
             await NavigationService.PopAsync();
         }
 
+        private string resultText;
+
+        public string ResultText
+        {
+            get { return resultText; }
+            set { SetProperty( ref resultText, value); }
+        }
+
+
         public async Task SetMasterKey(SecureString Password)
         {
             await NavigationService.PopAsync();
+        }
+
+        public void ChangeOkButtonAvaliability(bool isEnabled)
+        {
+            IsEnabled = isEnabled;
+        }
+
+        public void ChangeResultText (string Result)
+        {
+            ResultText = Result;
         }
     }
 }

@@ -12,12 +12,9 @@ namespace PasswordManagerCore.Modules
             InitializeComponent();
         }
 
-
-
         private void SetMasterKeyEvent(object sender, System.Windows.RoutedEventArgs e)
         {
-            var Aux = (MasterKeySetterViewModel)DataContext;
-            Aux.SetMasterKey(PasswordBox.SecurePassword);
+            ((MasterKeySetterViewModel)DataContext).SetMasterKey(PasswordBox.SecurePassword);
         }
 
         private void PasswordChangedEvent(object sender, System.Windows.RoutedEventArgs e)
@@ -25,12 +22,18 @@ namespace PasswordManagerCore.Modules
             if(PasswordBox.Password!=VerificationBox.Password)
             {
                 VerificationBox.BorderBrush = System.Windows.Media.Brushes.Red;
-                Result.Text = "As duas senhas não são iguais";
+                PasswordBox.BorderBrush = System.Windows.Media.Brushes.Red;
+                Result.Foreground = System.Windows.Media.Brushes.Red;
+                ((MasterKeySetterViewModel)DataContext).ChangeOkButtonAvaliability(false);
+                ((MasterKeySetterViewModel)DataContext).ChangeResultText("As duas senhas não são iguais");
                 return;
             }
-            Result.Text = "";
+            VerificationBox.BorderBrush = System.Windows.Media.Brushes.Green;
+            PasswordBox.BorderBrush = System.Windows.Media.Brushes.Green;
+            Result.Foreground = System.Windows.Media.Brushes.Green;
             VerificationBox.BorderBrush = PasswordBox.BorderBrush;
-            OkButton.IsEnabled = true;
+            ((MasterKeySetterViewModel)DataContext).ChangeResultText("As senhas são iguais");
+            ((MasterKeySetterViewModel)DataContext).ChangeOkButtonAvaliability(true);
         }
     }
 }
