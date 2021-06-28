@@ -2,6 +2,7 @@
 using PasswordManagerCore.Model;
 using System;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;

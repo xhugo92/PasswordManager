@@ -1,7 +1,9 @@
 ﻿using MvvmHelpers;
+using PasswordManagerCore.Resources;
 using PasswordManagerCore.Services;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,25 +27,40 @@ namespace PasswordManagerCore.Modules
             set { SetProperty(ref isEnabled, value); }
         }
 
-        public ICommand ReturnButtonCommand { get; set; }
-
-        private async Task ReturnButton()
-        {
-            await NavigationService.PopAsync();
-        }
-
         private string resultText;
 
         public string ResultText
         {
             get { return resultText; }
-            set { SetProperty( ref resultText, value); }
+            set { SetProperty(ref resultText, value); }
         }
 
+        public ICommand ReturnButtonCommand { get; set; }
+
+        private async Task ReturnButton()
+        {
+            await NavigationService.PopAsync();
+        }     
 
         public async Task SetMasterKey(SecureString Password)
         {
+            MainWindowView.Current.InstanceVariables.HasPasswordSetted = true;
+            MainWindowView.Current.InstanceVariables.EncryptedPassword = CryptographyService.EncryptData(SecureStringToString(Password), MainWindowView.Current.InstanceVariables.CrypthographyKey);
             await NavigationService.PopAsync();
+        }
+
+        String SecureStringToString(SecureString value)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
         }
 
         public void ChangeOkButtonAvaliability(bool isEnabled)

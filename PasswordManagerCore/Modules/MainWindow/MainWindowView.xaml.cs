@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using PasswordManagerCore.Resources;
+using System.Windows;
 
 namespace PasswordManagerCore.Modules
 {
@@ -15,7 +16,10 @@ namespace PasswordManagerCore.Modules
             Top = desktopWorkingArea.Bottom - Height;
             DataContext = new MainWindowViewModel();
             Current = this;
+            InstanceVariables = new ConfigurationVariables();
         }
+
+        public ConfigurationVariables InstanceVariables { get; private set; }
 
         public static MainWindowView Current { get; set; }
     }

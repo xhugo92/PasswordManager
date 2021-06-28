@@ -30,7 +30,12 @@ namespace PasswordManagerCore.Modules
                 DatabaseContext DbContext = new DatabaseContext();
                 DbContext.EnsureCreation();
             });
-            StartupService.Startup();
+            LoadAndUnloadService.Startup();
+            if(MainWindowView.Current.InstanceVariables.HasPasswordSetted)
+            {
+                await NavigationService.NavigateAsync<LoginViewModel>();
+                return;
+            }
             await NavigateHome();
         }
 
@@ -38,7 +43,7 @@ namespace PasswordManagerCore.Modules
 
         private async Task CloseMainWindow()
         {
-            System.IO.File.WriteAllText("config", ConfigurationVariables.CrypthographyKey);
+            LoadAndUnloadService.SaveAll();
             await NavigationService.CloseAllWindows();
         }
 

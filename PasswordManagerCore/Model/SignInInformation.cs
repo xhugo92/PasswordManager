@@ -1,4 +1,5 @@
 ﻿using MvvmHelpers;
+using PasswordManagerCore.Modules;
 using PasswordManagerCore.Resources;
 using PasswordManagerCore.Services;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace PasswordManagerCore.Model
             }
             else
             {
-                EncryptedPassword = CryptographyService.EncryptData(Password, ConfigurationVariables.CrypthographyKey);
+                EncryptedPassword = CryptographyService.EncryptData(Password, MainWindowView.Current.InstanceVariables.CrypthographyKey);
             }
         }
 

@@ -10,7 +10,7 @@ namespace PasswordManagerCore.Modules
     {
         public EditCryptographyKeyViewModel()
         {
-            KeyText = ConfigurationVariables.CrypthographyKey;
+            KeyText = MainWindowView.Current.InstanceVariables.CrypthographyKey;
             ChangeKeyCommand = new MvvmHelpers.Commands.AsyncCommand(ChangeKey);
         }
 
@@ -18,13 +18,13 @@ namespace PasswordManagerCore.Modules
 
         private async Task ChangeKey()
         {
-            if (KeyText == ConfigurationVariables.CrypthographyKey)
+            if (KeyText == MainWindowView.Current.InstanceVariables.CrypthographyKey)
             {
                 await NavigationService.ClosePopup<EditCryptographyKeyViewModel>();
                 return;
             }
-            await CryptographyService.ChangeAllPasswordKeys(ConfigurationVariables.CrypthographyKey, KeyText);
-            ConfigurationVariables.CrypthographyKey = KeyText;
+            await CryptographyService.ChangeAllPasswordKeys(MainWindowView.Current.InstanceVariables.CrypthographyKey, KeyText);
+            MainWindowView.Current.InstanceVariables.CrypthographyKey = KeyText;
             await NavigationService.ClosePopup<EditCryptographyKeyViewModel>();
         }
 

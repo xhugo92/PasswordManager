@@ -1,7 +1,11 @@
 ﻿namespace PasswordManagerCore.Resources
 {
-    public static class ConfigurationVariables
+    public class ConfigurationVariables
     {
-        public static string CrypthographyKey { get; set; }
+        public string CrypthographyKey { get; set; }
+
+        public bool HasPasswordSetted { get; set; }
+
+        public string EncryptedPassword { get; set; }
     }
 }
