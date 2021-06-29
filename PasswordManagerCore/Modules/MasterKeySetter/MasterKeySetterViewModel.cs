@@ -46,7 +46,9 @@ namespace PasswordManagerCore.Modules
         {
             MainWindowView.Current.InstanceVariables.HasPasswordSetted = true;
             MainWindowView.Current.InstanceVariables.EncryptedPassword = CryptographyService.EncryptData(SecureStringToString(Password), MainWindowView.Current.InstanceVariables.CrypthographyKey);
+            await CryptographyService.ChangeAllPasswordKeys(MainWindowView.Current.InstanceVariables.CrypthographyKey, SecureStringToString(Password));
             await NavigationService.PopAsync();
+            await NavigationService.NavigateAsync<ConfigurationViewModel>();
         }
 
         String SecureStringToString(SecureString value)

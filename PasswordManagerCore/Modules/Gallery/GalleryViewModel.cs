@@ -38,7 +38,15 @@ namespace PasswordManagerCore.Modules
 
         private async Task SendToClypboard(SignInInformation signInInformation)
         {
-            Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey));
+            if (MainWindowView.Current.InstanceVariables.HasPasswordSetted)
+            {
+                Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword,
+                    CryptographyService.DecryptData(MainWindowView.Current.InstanceVariables.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey)));
+            }
+            else
+            {
+                Clipboard.SetText(CryptographyService.DecryptData(signInInformation.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey));
+            }
             await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Enviado para a zona de transferencia", "Ok", 2);
         }
 

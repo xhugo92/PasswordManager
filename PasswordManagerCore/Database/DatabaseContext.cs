@@ -24,7 +24,7 @@ namespace PasswordManagerCore.Database
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=sqlitedb.db");
+            optionsBuilder.UseSqlite("Data Source=CEkik5u-=Cyy");
         }
     }
 }

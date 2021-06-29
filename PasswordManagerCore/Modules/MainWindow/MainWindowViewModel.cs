@@ -33,7 +33,7 @@ namespace PasswordManagerCore.Modules
             LoadAndUnloadService.Startup();
             if(MainWindowView.Current.InstanceVariables.HasPasswordSetted)
             {
-                await NavigationService.NavigateAsync<LoginViewModel>();
+                await NavigationService.NavigateAsync<LoginViewModel>("Home");
                 return;
             }
             await NavigateHome();

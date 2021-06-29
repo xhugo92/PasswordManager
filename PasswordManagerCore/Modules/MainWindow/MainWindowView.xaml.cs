@@ -19,7 +19,7 @@ namespace PasswordManagerCore.Modules
             InstanceVariables = new ConfigurationVariables();
         }
 
-        public ConfigurationVariables InstanceVariables { get; private set; }
+        public ConfigurationVariables InstanceVariables { get; set; }
 
         public static MainWindowView Current { get; set; }
     }

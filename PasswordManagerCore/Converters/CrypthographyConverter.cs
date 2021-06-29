@@ -13,6 +13,10 @@ namespace PasswordManagerCore.Converters
         {
             if (value is string Password)
             {
+                if (MainWindowView.Current.InstanceVariables.HasPasswordSetted)
+                {
+                    return CryptographyService.DecryptData(Password, CryptographyService.DecryptData(MainWindowView.Current.InstanceVariables.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey));
+                }
                 return CryptographyService.DecryptData(Password, MainWindowView.Current.InstanceVariables.CrypthographyKey);
             }
             return null;
@@ -22,6 +26,10 @@ namespace PasswordManagerCore.Converters
         {
             if (value is string Password)
             {
+                if (MainWindowView.Current.InstanceVariables.HasPasswordSetted)
+                {
+                    return CryptographyService.EncryptData(Password, CryptographyService.DecryptData(MainWindowView.Current.InstanceVariables.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey));
+                }
                 return CryptographyService.EncryptData(Password, MainWindowView.Current.InstanceVariables.CrypthographyKey);
             }
             return null;

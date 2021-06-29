@@ -14,39 +14,28 @@ namespace PasswordManagerCore.Services
     {
         public static void Startup()
         {
-            try
+            string file = "kzi#PMvrZVd";
+            if (File.Exists(file))
             {
-                string file = "config";
                 ConfigurationVariables configurationVariables = new ConfigurationVariables();
                 XmlSerializer formatter = new XmlSerializer(typeof(ConfigurationVariables));
-                //FileStream aFile = new FileStream(file, FileMode.Open);
-                //byte[] buffer = new byte[aFile.Length];
-                //aFile.Read(buffer, 0, (int)aFile.Length);
                 string content = File.ReadAllText(file);
                 var encodedtext = Convert.FromBase64String(content);
                 var plaintext = Encoding.UTF8.GetString(encodedtext);
                 byte[] buffer = Encoding.Unicode.GetBytes(plaintext);
                 MemoryStream stream = new MemoryStream(buffer);
                 configurationVariables = (ConfigurationVariables)formatter.Deserialize(stream);
-                MainWindowView.Current.InstanceVariables.CrypthographyKey = configurationVariables.CrypthographyKey;
-                MainWindowView.Current.InstanceVariables.HasPasswordSetted = configurationVariables.HasPasswordSetted;
-                if(configurationVariables.HasPasswordSetted)
-                {
-                    MainWindowView.Current.InstanceVariables.EncryptedPassword = configurationVariables.EncryptedPassword;
-                }
-
+                MainWindowView.Current.InstanceVariables = configurationVariables;
+                return;
             }
-            catch (FileNotFoundException FNFE)
-            {
-                string key = new string(Enumerable.Repeat(PasswordCharConstants.chars, 12)
-              .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
-                MainWindowView.Current.InstanceVariables.CrypthographyKey = key;
-            }
+            string key = new string(Enumerable.Repeat(PasswordCharConstants.chars, 12)
+          .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
+            MainWindowView.Current.InstanceVariables.CrypthographyKey = key;
         }
 
         public static void SaveAll()
         {
-            string path = "config";
+            string path = "kzi#PMvrZVd";
             XmlSerializer formatter = new XmlSerializer(typeof(ConfigurationVariables));
             StringWriter textWriter = new StringWriter();
             formatter.Serialize(textWriter, MainWindowView.Current.InstanceVariables);

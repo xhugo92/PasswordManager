@@ -11,14 +11,25 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Modificar a chave de criptografia" Margin="5"/>
-            <Button Content="Modificar" Command="{Binding ChangeCryptographyCommand}" Margin="5"/>
+            <TextBlock Text="Limpar banco de dados" Margin="5"/>
+            <Button Content="Limpar" Command="{Binding WypeDatabaseCommand}" Margin="5"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBlock Text="Modificar a chave de criptografia" Margin="5"/>
+            <Button Content="Modificar" Command="{Binding ChangeCryptographyCommand}" Margin="5" 
+                    IsEnabled="{Binding CanChangeCrypthographyKey}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
             <TextBlock Text="{Binding MasterKeyText}" Margin="5"/>
             <Button Content="{Binding MasterKeyButton}" Command="{Binding ConfigMasterKeyCommand}" Margin="5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Text="Remover Senha" Margin="5" Visibility="{Binding ErasePasswordVisibility}"/>
+            <Button Content="Remover" Command="{Binding ErasePasswordCommand}" Margin="5"
+                     Visibility="{Binding ErasePasswordVisibility}"/>
         </StackPanel>
         
     </Grid>

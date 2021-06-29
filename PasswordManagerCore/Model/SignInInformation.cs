@@ -22,7 +22,14 @@ namespace PasswordManagerCore.Model
             }
             else
             {
-                EncryptedPassword = CryptographyService.EncryptData(Password, MainWindowView.Current.InstanceVariables.CrypthographyKey);
+                if (MainWindowView.Current.InstanceVariables.HasPasswordSetted)
+                {
+                    EncryptedPassword = CryptographyService.EncryptData(Password, CryptographyService.DecryptData(MainWindowView.Current.InstanceVariables.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey));
+                }
+                else
+                {
+                    EncryptedPassword = CryptographyService.EncryptData(Password, MainWindowView.Current.InstanceVariables.CrypthographyKey);
+                }
             }
         }
 
