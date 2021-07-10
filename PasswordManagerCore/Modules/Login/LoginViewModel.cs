@@ -4,6 +4,7 @@ using PasswordManagerCore.Services;
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
 {
@@ -14,7 +15,15 @@ namespace PasswordManagerCore.Modules
             destiny = Destiny;
         }
 
+        public LoginViewModel(string Destiny, Action action)
+        {
+            destiny = Destiny;
+            this.action = action;
+        }
+
         private string destiny;
+        private readonly Action action;
+
 
         public bool AuthenticationProcess(SecureString Password)
         {
@@ -24,6 +33,8 @@ namespace PasswordManagerCore.Modules
                 switch(destiny)
                 {
                     case "Home":
+                        MainWindowView.Current.InstanceVariables.IsLogedIn = true;
+                        action.Invoke();
                         NavigationService.NavigateAsync<HomeViewModel>();
                         break;
                     case "Change":
@@ -31,6 +42,7 @@ namespace PasswordManagerCore.Modules
                         break;
                     case "Erase":
                         MainWindowView.Current.InstanceVariables.HasPasswordSetted = false;
+                        CryptographyService.ChangeAllPasswordKeys(CryptographyService.DecryptData(MainWindowView.Current.InstanceVariables.EncryptedPassword, MainWindowView.Current.InstanceVariables.CrypthographyKey), MainWindowView.Current.InstanceVariables.CrypthographyKey) ;
                         MainWindowView.Current.InstanceVariables.EncryptedPassword = "";
                         NavigationService.NavigateAsync<ConfigurationViewModel>();
                         break;

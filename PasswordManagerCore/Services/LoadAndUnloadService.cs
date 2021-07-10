@@ -35,6 +35,7 @@ namespace PasswordManagerCore.Services
 
         public static void SaveAll()
         {
+            MainWindowView.Current.InstanceVariables.IsLogedIn = false;
             string path = "kzi#PMvrZVd";
             XmlSerializer formatter = new XmlSerializer(typeof(ConfigurationVariables));
             StringWriter textWriter = new StringWriter();

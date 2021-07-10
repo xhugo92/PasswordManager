@@ -2,8 +2,10 @@
 using PasswordManagerCore.Database;
 using PasswordManagerCore.Resources;
 using PasswordManagerCore.Services;
+using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PasswordManagerCore.Modules
@@ -33,11 +35,22 @@ namespace PasswordManagerCore.Modules
             LoadAndUnloadService.Startup();
             if(MainWindowView.Current.InstanceVariables.HasPasswordSetted)
             {
-                await NavigationService.NavigateAsync<LoginViewModel>("Home");
+                MainWindowView.Current.InstanceVariables.IsLogedIn = false;
+                NavigationVisibility = Visibility.Collapsed;
+                await NavigationService.NavigateAsync<LoginViewModel>("Home", new Action(()=> { NavigationVisibility = Visibility.Visible; }));
                 return;
             }
             await NavigateHome();
         }
+
+        private Visibility navigationVisibility;
+
+        public Visibility NavigationVisibility
+        {
+            get { return navigationVisibility; }
+            set { SetProperty(ref navigationVisibility, value); }
+        }
+
 
         public ICommand CloseMainWindowCommand { get; set; }
 

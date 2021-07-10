@@ -17,10 +17,18 @@ namespace PasswordManagerCore.Modules
         private void SignUp(object sender, RoutedEventArgs e)
         {
             bool Sucess = ((LoginViewModel)DataContext).AuthenticationProcess(EntryPassword.SecurePassword);
-            if(!Sucess)
+            if (!Sucess)
             {
                 Result.Foreground = System.Windows.Media.Brushes.Red;
                 EntryPassword.BorderBrush = System.Windows.Media.Brushes.Red;
+            }
+        }
+
+        private void EnterPressed(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                SignUp(sender, e);
             }
         }
     }

@@ -26,7 +26,7 @@
         <Grid x:Name="Content">
 
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Visibility="{Binding NavigationVisibility}">
             <Button Content="Home" Command="{Binding NavigateHomeCommand}"/>
             <Button Content="Add" Command="{Binding NavigateAddCommand}"/>
             <Button Content="Gallery" Command="{Binding NavigateGalleryCommand}"/>

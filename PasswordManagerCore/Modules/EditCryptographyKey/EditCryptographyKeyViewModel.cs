@@ -10,7 +10,6 @@ namespace PasswordManagerCore.Modules
     {
         public EditCryptographyKeyViewModel()
         {
-            KeyText = MainWindowView.Current.InstanceVariables.CrypthographyKey;
             ChangeKeyCommand = new MvvmHelpers.Commands.AsyncCommand(ChangeKey);
         }
 

@@ -17,7 +17,7 @@
             <TextBlock Text="Limpar banco de dados" Margin="5"/>
             <Button Content="Limpar" Command="{Binding WypeDatabaseCommand}" Margin="5"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Visibility="{Binding CrypthografyKeyVisibility}">
             <TextBlock Text="Modificar a chave de criptografia" Margin="5"/>
             <Button Content="Modificar" Command="{Binding ChangeCryptographyCommand}" Margin="5" 
                     IsEnabled="{Binding CanChangeCrypthographyKey}"/>

@@ -7,5 +7,7 @@
         public bool HasPasswordSetted { get; set; }
 
         public string EncryptedPassword { get; set; }
+
+        public bool IsLogedIn { get; set; }
     }
 }

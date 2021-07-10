@@ -21,16 +21,27 @@ namespace PasswordManagerCore.Modules
                 MasterKeyText = "Alterar senha mestra do aplicativo";
                 MasterKeyButton = "Alterar";
                 ErasePasswordVisibility = Visibility.Visible;
+                CrypthografyKeyVisibility = Visibility.Collapsed;
                 ConfigMasterKeyCommand = new MvvmHelpers.Commands.AsyncCommand(ChangeMasterKey);
             }
             else
             {
                 MasterKeyText = "Definir senha mestra para o aplicativo";
                 MasterKeyButton = "Definir";
+                CrypthografyKeyVisibility = Visibility.Visible;
                 ErasePasswordVisibility = Visibility.Collapsed;
                 ConfigMasterKeyCommand = new MvvmHelpers.Commands.AsyncCommand(ConfigMasterKey);
             }
         }
+
+        private Visibility crypthografyKeyVisibility;
+
+        public Visibility CrypthografyKeyVisibility
+        {
+            get { return crypthografyKeyVisibility; }
+            set { SetProperty( ref crypthografyKeyVisibility, value); }
+        }
+
 
         public ICommand WypeDatabaseCommand { get; set; }
 
