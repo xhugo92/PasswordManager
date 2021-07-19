@@ -3,6 +3,7 @@ using PasswordManagerCore.Constants;
 using PasswordManagerCore.Database;
 using PasswordManagerCore.Model;
 using PasswordManagerCore.Services;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -15,21 +16,71 @@ namespace PasswordManagerCore.Modules
     {
         public AddViewModel()
         {
+            GeneratePasswordCommand = new MvvmHelpers.Commands.AsyncCommand(GeneratePassword);
             AddToDatabaseCommand = new MvvmHelpers.Commands.AsyncCommand(AddToDatabase);
+            ShowHidePasswordMenuCommand = new MvvmHelpers.Commands.AsyncCommand(ShowHidePasswordMenu);
             ClearFieldsCommand = new MvvmHelpers.Commands.Command(ClearFields);
-            GeneratePasswordCommand = new MvvmHelpers.Commands.Command(GeneratePassword);
+            LengthText = "12";
+            PasswordMenuVisibility = Visibility.Collapsed;
+            NumberIsChecked = true;
+            UpperIsChecked = true;
+            LowerIsChecked = true;
+            SpecialIsChecked = true;
             DbContext = new DatabaseContext();
         }
+
+        #region Methods
+        private string GeneratePasswordSeedString()
+        {
+            string seed ="";
+            if(NumberIsChecked)
+            {
+                seed += PasswordCharConstants.Number;
+            }
+            if(UpperIsChecked)
+            {
+                seed += PasswordCharConstants.Upper;
+            }
+            if(LowerIsChecked)
+            {
+                seed += PasswordCharConstants.Lower;
+            }
+            if( SpecialIsChecked)
+            {
+                seed += PasswordCharConstants.Special;
+            }
+            return seed;
+        }
+        #endregion
+
+        #region Commands
 
         public DatabaseContext DbContext { get; set; }
         public ICommand GeneratePasswordCommand { get; set; }
 
-        public void GeneratePassword()
+        public async Task GeneratePassword()
         {
-            //TODO: Colocar o tamanho para ser configuravel            
-            string RandomPassword = new string(Enumerable.Repeat(PasswordCharConstants.chars, 12)
-              .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
-            PasswordText = RandomPassword;
+            bool tryparser = Int32.TryParse(LengthText, out int passwordLength);
+            if (!tryparser)
+            {
+                await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Tamanho de senha invalido, tente novamente", "Ok", 10);
+                return;
+            }
+            string PasswordChars = GeneratePasswordSeedString();
+            PasswordText = RandomTextGeneratorService.GenerateRandomString(passwordLength, PasswordChars);
+        }
+
+
+        public ICommand ShowHidePasswordMenuCommand { get; set; }
+
+        public async Task ShowHidePasswordMenu()
+        {
+            if (PasswordMenuVisibility == Visibility.Collapsed)
+            {
+                PasswordMenuVisibility = Visibility.Visible;
+                return;
+            }
+            PasswordMenuVisibility = Visibility.Collapsed;
         }
 
         public ICommand AddToDatabaseCommand { get; set; }
@@ -82,6 +133,60 @@ namespace PasswordManagerCore.Modules
             UsernameText = "";
             PasswordText = "";
         }
+        #endregion
+
+        #region properties
+
+        private bool specialIsChecked;
+
+        public bool SpecialIsChecked
+        {
+            get { return specialIsChecked; }
+            set { SetProperty(ref specialIsChecked, value); }
+        }
+
+
+        private bool lowerIsChecked;
+
+        public bool LowerIsChecked
+        {
+            get { return lowerIsChecked; }
+            set { SetProperty(ref lowerIsChecked, value); }
+        }
+
+
+        private bool upperIsChecked;
+
+        public bool UpperIsChecked
+        {
+            get { return upperIsChecked; }
+            set { SetProperty(ref upperIsChecked, value); }
+        }
+
+
+        private Visibility passwordMenuVisibility;
+
+        public Visibility PasswordMenuVisibility
+        {
+            get { return passwordMenuVisibility; }
+            set { SetProperty(ref passwordMenuVisibility, value); }
+        }
+
+        private bool numberIsChecked;
+
+        public bool NumberIsChecked
+        {
+            get { return numberIsChecked; }
+            set { SetProperty(ref numberIsChecked, value); }
+        }
+
+        private string lengthText;
+
+        public string LengthText
+        {
+            get { return lengthText; }
+            set { SetProperty(ref lengthText, value); }
+        }
 
         private string sourceText;
 
@@ -106,5 +211,6 @@ namespace PasswordManagerCore.Modules
             get { return passwordText; }
             set { SetProperty(ref passwordText, value); }
         }
+        #endregion
     }
 }

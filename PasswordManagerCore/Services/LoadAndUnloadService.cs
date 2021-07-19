@@ -28,7 +28,7 @@ namespace PasswordManagerCore.Services
                 MainWindowView.Current.InstanceVariables = configurationVariables;
                 return;
             }
-            string key = new string(Enumerable.Repeat(PasswordCharConstants.chars, 12)
+            string key = new string(Enumerable.Repeat(PasswordCharConstants.Every, 12)
           .Select(s => s[RNGCryptoServiceProvider.GetInt32(s.Length)]).ToArray());
             MainWindowView.Current.InstanceVariables.CrypthographyKey = key;
         }

@@ -13,6 +13,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Entre com as informações da sua senha " TextWrapping="Wrap" HorizontalAlignment="Center" Margin="5"/>
         <Grid Grid.Row="1" Margin="5">
@@ -44,6 +46,37 @@
             <Button Content="Limpar" Command="{Binding ClearFieldsCommand}" Margin="5"/>
             <Button Content="Gerar Senha" Command="{Binding GeneratePasswordCommand}" Margin="5"/>
         </StackPanel>
-
+        <Label Content="Configuração avançada das senhas" HorizontalAlignment="Center" Grid.Row="5">
+            <Label.InputBindings>
+                <MouseBinding Command="{Binding ShowHidePasswordMenuCommand}" MouseAction="LeftClick"/>
+            </Label.InputBindings>
+        </Label>
+        <Grid Grid.Row="6" Visibility="{Binding PasswordMenuVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="5" >
+                <TextBlock Text="Tamanho: " TextWrapping="Wrap" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding LengthText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="30"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                <CheckBox IsChecked="{Binding NumberIsChecked, Mode=TwoWay}" Content="Numeros (0-9)"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                <CheckBox IsChecked="{Binding UpperIsChecked, Mode=TwoWay}" Content="Letras Maiusculas(A-Z)"/>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                <CheckBox IsChecked="{Binding LowerIsChecked, Mode=TwoWay}" Content="Letras Minusculas(a-z)"/>
+            </StackPanel>
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                <CheckBox IsChecked="{Binding SpecialIsChecked, Mode=TwoWay}" Content="Caracteres Especiais(@*!#$%)"/>
+            </StackPanel>
+            
+        </Grid>
     </Grid>
+
 </UserControl>
