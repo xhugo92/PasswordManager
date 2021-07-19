@@ -10,6 +10,9 @@ namespace PasswordManagerCore.Modules
         public HelpView()
         {
             InitializeComponent();
+            Current = this;
         }
+
+        public static HelpView Current { get; set; }
     }
 }

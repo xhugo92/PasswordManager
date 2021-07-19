@@ -31,6 +31,20 @@ namespace PasswordManagerCore.Services
             MainWindowView.Current.Content.Children.Add(View);
         }
 
+        public static async Task NavigateHelpAsync<T>(params object[] parameters) where T : BaseViewModel
+        {
+            string name = typeof(T).AssemblyQualifiedName;
+            Type ViewType = Type.GetType(name.Replace("ViewModel", "View"));
+
+            IEnumerable<Type> paramTypes = parameters.Select(parameter => parameter.GetType());
+            ConstructorInfo ViewModelConstructor = typeof(T).GetConstructor(paramTypes.ToArray());
+            object ViewModel = ViewModelConstructor.Invoke(parameters);
+            ConstructorInfo ViewConstructor = ViewType.GetConstructor(Type.EmptyTypes);
+            UserControl View = (UserControl)ViewConstructor.Invoke(null);
+            View.DataContext = ViewModel;
+            HelpView.Current.HelpContent.Children.Add(View);
+        }
+
         public static async Task OpenNewWindowAsync<T>(params object[] parameters) where T : BaseViewModel
         {
             string name = typeof(T).AssemblyQualifiedName;

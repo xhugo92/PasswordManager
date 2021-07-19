@@ -3,10 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:PasswordManagerCore.Modules"
         mc:Ignorable="d"
         Title="HelpView" Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="Gray" BorderThickness="1">
+
+            <StackPanel Orientation="Vertical">
+                <Label Content="Adicionar">
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding HelpAddNavigateCommand}" MouseAction="LeftClick"/>
+                    </Label.InputBindings>
+                </Label>
+                <Label Content="Galeria">
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding HelpGalleryNavigateCommand}" MouseAction="LeftClick"/>
+                    </Label.InputBindings>
+                </Label>
+                <Label Content="Configurações">
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding HelpConfigNavigateCommand}" MouseAction="LeftClick"/>
+                    </Label.InputBindings>
+                </Label>
+            </StackPanel>
+        </Border>
+        <Grid x:Name ="HelpContent" Grid.Column="1">
+        </Grid>
     </Grid>
 </Window>
