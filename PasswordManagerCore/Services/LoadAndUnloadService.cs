@@ -1,7 +1,5 @@
 ﻿using PasswordManagerCore.Constants;
 using PasswordManagerCore.Resources;
-using System.Linq;
-using System.Security.Cryptography;
 using System.IO;
 using System.Xml.Serialization;
 using PasswordManagerCore.Modules;

@@ -17,6 +17,11 @@ namespace PasswordManagerCore.Modules
 
         private async Task ChangeKey()
         {
+            if (string.IsNullOrWhiteSpace(KeyText))
+            {
+                await NavigationService.ClosePopup<EditCryptographyKeyViewModel>();
+                return;
+            }
             if (KeyText == MainWindowView.Current.InstanceVariables.CrypthographyKey)
             {
                 await NavigationService.ClosePopup<EditCryptographyKeyViewModel>();
