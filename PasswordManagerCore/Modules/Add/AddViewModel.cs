@@ -191,7 +191,7 @@ namespace PasswordManagerCore.Modules
                     await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Por favor preencha todos os campos", "Ok", 5);
                     return;
                 }
-                await AddInDatabase(SourceText, UsernameText, PasswordText, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
+                await AddInDatabase(SourceText, UsernameText, password, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
 
             }
         }
