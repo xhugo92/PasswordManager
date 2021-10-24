@@ -21,6 +21,7 @@ namespace PasswordManagerCore.Modules
             ShowHidePasswordMenuCommand = new MvvmHelpers.Commands.AsyncCommand(ShowHidePasswordMenu);
             ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand(ChangePasswordVisibility);
             ClearFieldsCommand = new MvvmHelpers.Commands.Command(ClearFields);
+            ChangingPasswordCommand = new MvvmHelpers.Commands.Command(ChangingPassword);
             LengthText = "12";
             PasswordMenuVisibility = Visibility.Collapsed;
             NumberIsChecked = true;
@@ -129,6 +130,17 @@ namespace PasswordManagerCore.Modules
         #region Commands
 
         public DatabaseContext DbContext { get; set; }
+        public ICommand ChangingPasswordCommand { get; set; }
+
+        public void ChangingPassword()
+        {
+            if (!string.IsNullOrEmpty(PasswordText.Replace("\u25CF","")))
+            {
+                password = PasswordText;
+                return;
+            }
+        }
+        
         public ICommand ChangePasswordVisibilityCommand { get; set; }
 
         public async Task ChangePasswordVisibility()
