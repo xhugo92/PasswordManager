@@ -31,6 +31,8 @@ namespace PasswordManagerCore.Modules
             DeleteEntryCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(DeleteEntry);
             ChangeSignInInformationCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(ChangeSignInInformation);
             SendToClypboardCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(SendToClypboard);
+            SortUserCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(SortUser);
+            SortSourceCommand = new MvvmHelpers.Commands.AsyncCommand<SignInInformation>(SortSource);
 
         }
         #region Commands
@@ -115,10 +117,54 @@ namespace PasswordManagerCore.Modules
                 ListBoxItemSource.ReplaceRange(Filter);
             }
         }
+
+        public ICommand SortUserCommand { get; set; }
+
+        private Task SortUser(SignInInformation SignInInformation)
+        {
+            if(TypeUserSort >= 0)
+            {
+                var Sort = OriginalListBoxItemSource.OrderBy(x => x.Username).ThenBy(x => x.Source);
+                ListBoxItemSource.ReplaceRange(Sort);
+                TypeUserSort = -1;
+            }
+            else
+            {
+                var Sort = OriginalListBoxItemSource.OrderByDescending(x => x.Username).ThenBy(x => x.Source);
+                ListBoxItemSource.ReplaceRange(Sort);
+                TypeUserSort = 1;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public ICommand SortSourceCommand { get; set; }
+
+        private Task SortSource(SignInInformation SignInInformation)
+        {
+            if(TypeSourceSort >= 0)
+            {
+                var Sort = OriginalListBoxItemSource.OrderBy(x => x.Source).ThenBy(x => x.Username);
+                ListBoxItemSource.ReplaceRange(Sort);
+                TypeSourceSort = -1;
+            }
+            else
+            {
+                var Sort = OriginalListBoxItemSource.OrderByDescending(x => x.Source).ThenBy(x => x.Username);
+                ListBoxItemSource.ReplaceRange(Sort);
+                TypeSourceSort = 1;
+            }
+            
+            return Task.CompletedTask;
+        }
+
         #endregion
         #region Variables
         public DatabaseContext DbContext { get; set; }
         private string searchText;
+
+        private int TypeUserSort { get; set; }
+        private int TypeSourceSort { get; set; }
 
         public string SearchText
         {
