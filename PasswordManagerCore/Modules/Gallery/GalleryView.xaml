@@ -7,21 +7,32 @@
              xmlns:c="clr-namespace:PasswordManagerCore.Converters"
              xmlns:local="clr-namespace:PasswordManagerCore.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" x:Name="View">
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="View"
+>
+    
     <UserControl.Resources>
         <c:CrypthographyConverter x:Key="CrypthoConverter"/>
     </UserControl.Resources>
+    
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="2px" Margin="5" Grid.ColumnSpan="2">
+        
+        <Border 
+            Grid.Row="1" 
+            BorderBrush="Gray" 
+            BorderThickness="2px" 
+            Margin="5" 
+            Grid.ColumnSpan="2"
+        >
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Pesquisar" Margin="5"/>
                 <StackPanel Orientation="Horizontal">
@@ -70,10 +81,18 @@
                     />
                 </StackPanel>
 
-                <ListBox ItemsSource="{Binding ListBoxItemSource}" x:Name="ListBox">
+                <ListBox 
+                    ItemsSource="{Binding ListBoxItemSource}" 
+                    x:Name="ListBox"
+                >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Blue" BorderThickness="2" Margin="3" Width="235">
+                            <Border 
+                                BorderBrush="Gray"  
+                                BorderThickness="2" 
+                                Margin="2" 
+                                Width="250"
+                            >
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -81,35 +100,63 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                                    
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="3">
                                         <TextBlock Text="Source: "/>
                                         <TextBlock Text="{Binding Source}" TextWrapping="Wrap"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="1" >
+                                    
+                                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="3">
                                         <TextBlock Text="Username: "/>
                                         <TextBlock Text="{Binding Username}" TextWrapping="Wrap"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2" >
+                                    
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="3">
                                         <TextBlock Text="Password: "/>
                                         <TextBlock Text="{Binding EncryptedPassword, Converter={StaticResource CrypthoConverter}}" TextWrapping="Wrap" 
                                                Visibility="{Binding PasswordVisibility}"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
-                                        <Button Command="{Binding DataContext.ChangePasswordVisibilityCommand, 
-                                        ElementName=View}" CommandParameter="{Binding .}">
+
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Grid.Row="3" 
+                                        HorizontalAlignment="Right" 
+                                        Margin="5 3 3 3"
+                                    >
+                                        <Button 
+                                            Command="{Binding DataContext.ChangePasswordVisibilityCommand, ElementName=View}" 
+                                            CommandParameter="{Binding .}"
+                                            Margin="2"
+                                            MinWidth="50"
+                                        >
                                             <TextBlock Text="{Binding VisibilityState}"/>
                                         </Button>
-                                        <Button Command="{Binding DataContext.ChangeSignInInformationCommand, 
-                                        ElementName=View}" CommandParameter="{Binding .}">
-                                            <TextBlock Text="C"/>
+                                        
+                                        <Button 
+                                            Command="{Binding DataContext.ChangeSignInInformationCommand, ElementName=View}" 
+                                            CommandParameter="{Binding .}"
+                                            Margin="2"
+                                            MinWidth="50"
+                                        >
+                                            <TextBlock Text="Edit"/>
                                         </Button>
-                                        <Button Command="{Binding DataContext.DeleteEntryCommand, ElementName=View}"
-                                            CommandParameter="{Binding .}">
-                                            <TextBlock Text="E"/>
+                                        
+                                        <Button 
+                                            Command="{Binding DataContext.DeleteEntryCommand, ElementName=View}"
+                                            CommandParameter="{Binding .}"
+                                            Margin="2"
+                                            MinWidth="50"
+                                        >
+                                            <TextBlock Text="Delete"/>
                                         </Button>
-                                        <Button Command="{Binding DataContext.SendToClypboardCommand, ElementName=View}"
-                                            CommandParameter="{Binding .}">
-                                            <TextBlock Text="Co"/>
+                                        
+                                        <Button 
+                                            Command="{Binding DataContext.SendToClypboardCommand, ElementName=View}"
+                                            CommandParameter="{Binding .}"
+                                            Margin="2"
+                                            MinWidth="50"
+                                        >
+                                            <TextBlock Text="Copy"/>
                                         </Button>
                                     </StackPanel>
                                 </Grid>

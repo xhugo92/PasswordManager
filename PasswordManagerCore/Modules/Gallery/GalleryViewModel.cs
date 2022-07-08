@@ -67,12 +67,12 @@ namespace PasswordManagerCore.Modules
             if (SignInInformation.PasswordVisibility == Visibility.Hidden)
             {
                 SignInInformation.PasswordVisibility = Visibility.Visible;
-                SignInInformation.VisibilityState = "O";
+                SignInInformation.VisibilityState = "Hide";
             }
             else
             {
                 SignInInformation.PasswordVisibility = Visibility.Hidden;
-                SignInInformation.VisibilityState = "S";
+                SignInInformation.VisibilityState = "Show";
             }
         }
 

@@ -12,7 +12,7 @@ namespace PasswordManagerCore.Model
     {
         public SignInInformation(string Source, string Username, string Password, bool isEncrypted)
         {
-            VisibilityState = "S";
+            VisibilityState = "Show";
             PasswordVisibility = Visibility.Hidden;
             this.Source = Source;
             this.Username = Username;
@@ -39,7 +39,7 @@ namespace PasswordManagerCore.Model
             this.Username = Username;
             this.EncryptedPassword = EncryptedPassword;
             this.PasswordVisibility = Visibility.Hidden;
-            this.VisibilityState = "S";
+            this.VisibilityState = "Show";
         }
 
         [Key]
