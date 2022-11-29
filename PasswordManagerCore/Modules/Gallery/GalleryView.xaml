@@ -28,7 +28,7 @@
         
         <Border 
             Grid.Row="1" 
-            BorderBrush="Gray" 
+            BorderBrush="Black" 
             BorderThickness="2px" 
             Margin="5" 
             Grid.ColumnSpan="2"
@@ -54,8 +54,14 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+        
         <Border BorderBrush="Black" BorderThickness="2px" Grid.Row="2" Grid.ColumnSpan="2" Margin="5">
-            <StackPanel Orientation="Vertical">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
                 <StackPanel 
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
@@ -84,6 +90,9 @@
                 <ListBox 
                     ItemsSource="{Binding ListBoxItemSource}" 
                     x:Name="ListBox"
+                    Grid.Row="1"
+                    ScrollViewer.CanContentScroll="True"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
                 >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -100,19 +109,31 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="3">
-                                        <TextBlock Text="Source: "/>
+
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Grid.Row="0" 
+                                        Margin="3"
+                                    >
+                                        <TextBlock Text="Source: " MinWidth="60"/>
                                         <TextBlock Text="{Binding Source}" TextWrapping="Wrap"/>
                                     </StackPanel>
-                                    
-                                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="3">
-                                        <TextBlock Text="Username: "/>
+
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Grid.Row="1" 
+                                        Margin="3"
+                                    >
+                                        <TextBlock Text="Username: " MinWidth="60"/>
                                         <TextBlock Text="{Binding Username}" TextWrapping="Wrap"/>
                                     </StackPanel>
-                                    
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="3">
-                                        <TextBlock Text="Password: "/>
+
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Grid.Row="2" 
+                                        Margin="3"
+                                    >
+                                        <TextBlock Text="Password: " MinWidth="60"/>
                                         <TextBlock Text="{Binding EncryptedPassword, Converter={StaticResource CrypthoConverter}}" TextWrapping="Wrap" 
                                                Visibility="{Binding PasswordVisibility}"/>
                                     </StackPanel>
@@ -131,7 +152,7 @@
                                         >
                                             <TextBlock Text="{Binding VisibilityState}"/>
                                         </Button>
-                                        
+
                                         <Button 
                                             Command="{Binding DataContext.ChangeSignInInformationCommand, ElementName=View}" 
                                             CommandParameter="{Binding .}"
@@ -140,7 +161,7 @@
                                         >
                                             <TextBlock Text="Edit"/>
                                         </Button>
-                                        
+
                                         <Button 
                                             Command="{Binding DataContext.DeleteEntryCommand, ElementName=View}"
                                             CommandParameter="{Binding .}"
@@ -149,7 +170,7 @@
                                         >
                                             <TextBlock Text="Delete"/>
                                         </Button>
-                                        
+
                                         <Button 
                                             Command="{Binding DataContext.SendToClypboardCommand, ElementName=View}"
                                             CommandParameter="{Binding .}"
@@ -164,7 +185,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>            
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
