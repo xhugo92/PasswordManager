@@ -93,6 +93,7 @@
                     Grid.Row="1"
                     ScrollViewer.CanContentScroll="True"
                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    Height="400"
                 >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
