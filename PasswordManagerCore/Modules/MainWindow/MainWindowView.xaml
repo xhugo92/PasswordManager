@@ -1,37 +1,78 @@
-﻿<Window x:Class="PasswordManagerCore.Modules.MainWindowView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:PasswordManagerCore.Modules"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="315">
+﻿<Window 
+    x:Class="PasswordManagerCore.Modules.MainWindowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:conv="clr-namespace:PasswordManagerCore.Converters"
+    mc:Ignorable="d"
+    Title="Password Manager" Height="450" Width="315"
+ >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
         </i:EventTrigger>
+        
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseMainWindowCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding OpenHelpWindowsCommand}"/>
     </Window.InputBindings>
+
+    <Window.Resources>
+        <conv:TabStyleConverter x:Key="TabStyleConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="auto"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid x:Name="Content">
+
+        <UniformGrid Grid.Row="0" Rows="1" 
+                     Background="White" 
+                     Visibility="{Binding NavigationVisibility}"
+        >
+            <Button 
+                Content="Home" 
+                Command="{Binding NavigateHomeCommand}" 
+                Style="{Binding CurrentTab,
+                        Converter={StaticResource TabStyleConverter},
+                        ConverterParameter=Home}"
+            />
+            
+            <Button 
+                Content="Add" 
+                Command="{Binding NavigateAddCommand}" 
+                Style="{Binding CurrentTab,
+                    Converter={StaticResource TabStyleConverter},
+                    ConverterParameter=Add}"
+            />
+            
+            <Button 
+                Content="Gallery" 
+                Command="{Binding NavigateGalleryCommand}" 
+                Style="{Binding CurrentTab,
+                        Converter={StaticResource TabStyleConverter},
+                        ConverterParameter=Gallery}"
+            />
+            
+            <Button 
+                Content="Config" 
+                Command="{Binding NavigateConfigurationCommand}" 
+                Style="{Binding CurrentTab,
+                        Converter={StaticResource TabStyleConverter},
+                        ConverterParameter=Config}"
+            />
+        </UniformGrid>
+
+        <Grid x:Name="Content" Cursor="" Grid.Row="1" Margin="0, 10, 0, 0">
 
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Visibility="{Binding NavigationVisibility}">
-            <Button Content="Home" Command="{Binding NavigateHomeCommand}"/>
-            <Button Content="Add" Command="{Binding NavigateAddCommand}"/>
-            <Button Content="Gallery" Command="{Binding NavigateGalleryCommand}"/>
-            <Button Content="Configuration" Command="{Binding NavigateConfigurationCommand}"/>
-        </StackPanel>
 
     </Grid>
 </Window>

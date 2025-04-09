@@ -1,47 +1,39 @@
-﻿using MvvmHelpers;
-using PasswordManagerCore.Database;
-using PasswordManagerCore.Services;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Threading.Tasks;
+
+using MvvmHelpers;
+using MvvmHelpers.Commands;
+
+using PasswordManagerCore.Database;
+using PasswordManagerCore.Services;
 
 namespace PasswordManagerCore.Modules
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public MainWindowViewModel()
+        // 1 - Enums
+        public enum Tab
         {
-            NavigateHomeCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateHome);
-            NavigateAddCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateAdd);
-            NavigateGalleryCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateGallery);
-            NavigateConfigurationCommand = new MvvmHelpers.Commands.AsyncCommand(NavigateConfiguration);
-            OpenHelpWindowsCommand = new MvvmHelpers.Commands.AsyncCommand(OpenHelpWindows);
-            CloseMainWindowCommand = new MvvmHelpers.Commands.AsyncCommand(CloseMainWindow);
-            OnLoadCommand = new MvvmHelpers.Commands.AsyncCommand(OnLoad);
+            Home,
+            Add,
+            Gallery,
+            Config
         }
 
-        public ICommand OnLoadCommand { get; set; }
 
-        private async Task OnLoad()
-        {
-            Task.Run(() =>
-            {
-                DatabaseContext DbContext = new DatabaseContext();
-                DbContext.EnsureCreation();
-            });
-            LoadAndUnloadService.Startup();
-            if(MainWindowView.Current.InstanceVariables.HasPasswordSetted)
-            {
-                MainWindowView.Current.InstanceVariables.IsLogedIn = false;
-                NavigationVisibility = Visibility.Collapsed;
-                await NavigationService.NavigateAsync<LoginViewModel>("Home", new Action(()=> { NavigationVisibility = Visibility.Visible; }));
-                return;
-            }
-            await NavigateHome();
-        }
-
+        // 2 - Campos privados
+        private Tab? _CurrentTab;
         private Visibility navigationVisibility;
+        
+
+        // 3 - Campos públicos
+        public Tab? CurrentTab
+        {
+            get => _CurrentTab;
+            set => SetProperty(ref _CurrentTab, value);
+        }
 
         public Visibility NavigationVisibility
         {
@@ -50,47 +42,73 @@ namespace PasswordManagerCore.Modules
         }
 
 
+        // 4 - Comandos
+        public ICommand OnLoadCommand { get; set; }
         public ICommand CloseMainWindowCommand { get; set; }
+        public ICommand NavigateHomeCommand { get; set; }
+        public ICommand NavigateAddCommand { get; set; }
+        public ICommand NavigateGalleryCommand { get; set; }
+        public ICommand NavigateConfigurationCommand { get; set; }
+        public ICommand OpenHelpWindowsCommand { get; set; }
 
+
+        // 5 - COnstrutor
+        public MainWindowViewModel()
+        {
+            NavigateHomeCommand = new AsyncCommand(() => NavigateToAsync(Tab.Home)); // use lambda quando a função que quer rodar precisa de parametros.
+            NavigateAddCommand = new AsyncCommand(() => NavigateToAsync(Tab.Add));
+            NavigateGalleryCommand = new AsyncCommand(() => NavigateToAsync(Tab.Gallery));
+            NavigateConfigurationCommand = new AsyncCommand(() => NavigateToAsync(Tab.Config));
+            OpenHelpWindowsCommand = new AsyncCommand(OpenHelpWindows);
+            CloseMainWindowCommand = new AsyncCommand(CloseMainWindow);
+            OnLoadCommand = new MvvmHelpers.Commands.AsyncCommand(OnLoad);
+        }
+
+        
+        // 6 - Metodos privados
+        private async Task OnLoad()
+        {
+            InitializeDatabase();
+            LoadAndUnloadService.Startup();
+
+            await NavigateToAsync(Tab.Home);
+        }
         private async Task CloseMainWindow()
         {
             LoadAndUnloadService.SaveAll();
             await NavigationService.CloseAllWindows();
         }
-
-        public ICommand NavigateHomeCommand { get; set; }
-
-        private async Task NavigateHome()
-        {
-            await NavigationService.NavigateAsync<HomeViewModel>();
-        }
-
-        public ICommand NavigateAddCommand { get; set; }
-
-        private async Task NavigateAdd()
-        {
-            await NavigationService.NavigateAsync<AddViewModel>();
-        }
-
-        public ICommand NavigateGalleryCommand { get; set; }
-
-        private async Task NavigateGallery()
-        {
-            await NavigationService.NavigateAsync<GalleryViewModel>();
-        }
-
-        public ICommand NavigateConfigurationCommand { get; set; }
-
-        private async Task NavigateConfiguration()
-        {
-            await NavigationService.NavigateAsync<ConfigurationViewModel>();
-        }
-
-        public ICommand OpenHelpWindowsCommand { get; set; }
-
         private async Task OpenHelpWindows()
         {
             await NavigationService.OpenNewWindowAsync<HelpViewModel>();
+        }
+        private async Task NavigateToAsync(Tab tab)
+        {
+            CurrentTab = tab;
+
+            switch(tab)
+            {
+                case Tab.Home:
+                    await NavigationService.NavigateAsync<HomeViewModel>();
+                    break;
+
+                case Tab.Add:
+                    await NavigationService.NavigateAsync<AddViewModel>();
+                    break;
+
+                case Tab.Gallery:
+                    await NavigationService.NavigateAsync<GalleryViewModel>();
+                    break;
+                
+                case Tab.Config:
+                    await NavigationService.NavigateAsync<ConfigurationViewModel>();
+                    break;
+            }
+        }
+        private void InitializeDatabase()
+        {
+            using var dbContext = new DatabaseContext();
+            dbContext.EnsureCreation();
         }
     }
 

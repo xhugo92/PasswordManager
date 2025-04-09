@@ -5,6 +5,11 @@
              StartupUri="modules\mainwindow\mainwindowview.xaml
 ">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/TabButtonStyle.xaml"/>
+                <ResourceDictionary Source="Resources/ActiveTabButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
