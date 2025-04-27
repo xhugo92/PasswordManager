@@ -13,7 +13,7 @@ namespace PasswordManagerCore.Modules
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        // 1 - Enums
+        #region ENUMS
         public enum Tab
         {
             Home,
@@ -21,14 +21,14 @@ namespace PasswordManagerCore.Modules
             Gallery,
             Config
         }
+        #endregion
 
-
-        // 2 - Campos privados
+        #region ATRIBUTOS PRIVADOS
         private Tab? _CurrentTab;
         private Visibility navigationVisibility;
-        
+        #endregion
 
-        // 3 - Campos públicos
+        #region ATRIBUTOS PÚBLICOS
         public Tab? CurrentTab
         {
             get => _CurrentTab;
@@ -40,9 +40,9 @@ namespace PasswordManagerCore.Modules
             get { return navigationVisibility; }
             set { SetProperty(ref navigationVisibility, value); }
         }
+        #endregion
 
-
-        // 4 - Comandos
+        #region COMANDOS
         public ICommand OnLoadCommand { get; set; }
         public ICommand CloseMainWindowCommand { get; set; }
         public ICommand NavigateHomeCommand { get; set; }
@@ -50,9 +50,9 @@ namespace PasswordManagerCore.Modules
         public ICommand NavigateGalleryCommand { get; set; }
         public ICommand NavigateConfigurationCommand { get; set; }
         public ICommand OpenHelpWindowsCommand { get; set; }
+        #endregion
 
-
-        // 5 - COnstrutor
+        #region CONSTRUTOR
         public MainWindowViewModel()
         {
             NavigateHomeCommand = new AsyncCommand(() => NavigateToAsync(Tab.Home)); // use lambda quando a função que quer rodar precisa de parametros.
@@ -64,8 +64,9 @@ namespace PasswordManagerCore.Modules
             OnLoadCommand = new MvvmHelpers.Commands.AsyncCommand(OnLoad);
         }
 
-        
-        // 6 - Metodos privados
+        #endregion
+
+        #region METODOS PRIVADOS
         private async Task OnLoad()
         {
             InitializeDatabase();
@@ -86,7 +87,7 @@ namespace PasswordManagerCore.Modules
         {
             CurrentTab = tab;
 
-            switch(tab)
+            switch (tab)
             {
                 case Tab.Home:
                     await NavigationService.NavigateAsync<HomeViewModel>();
@@ -99,7 +100,7 @@ namespace PasswordManagerCore.Modules
                 case Tab.Gallery:
                     await NavigationService.NavigateAsync<GalleryViewModel>();
                     break;
-                
+
                 case Tab.Config:
                     await NavigationService.NavigateAsync<ConfigurationViewModel>();
                     break;
@@ -110,6 +111,7 @@ namespace PasswordManagerCore.Modules
             using var dbContext = new DatabaseContext();
             dbContext.EnsureCreation();
         }
+        #endregion
     }
 
 }
