@@ -35,12 +35,12 @@
 
         <UniformGrid Grid.Row="0" Rows="1" 
                      Background="White" 
-                     Visibility="{Binding NavigationVisibility}"
+                     Visibility="{Binding navigationVisibility}"
         >
             <Button 
                 Content="Home" 
                 Command="{Binding NavigateHomeCommand}" 
-                Style="{Binding CurrentTab,
+                Style="{Binding currentTab,
                         Converter={StaticResource TabStyleConverter},
                         ConverterParameter=Home}"
             />
@@ -48,7 +48,7 @@
             <Button 
                 Content="Add" 
                 Command="{Binding NavigateAddCommand}" 
-                Style="{Binding CurrentTab,
+                Style="{Binding currentTab,
                     Converter={StaticResource TabStyleConverter},
                     ConverterParameter=Add}"
             />
@@ -56,7 +56,7 @@
             <Button 
                 Content="Gallery" 
                 Command="{Binding NavigateGalleryCommand}" 
-                Style="{Binding CurrentTab,
+                Style="{Binding currentTab,
                         Converter={StaticResource TabStyleConverter},
                         ConverterParameter=Gallery}"
             />
@@ -64,7 +64,7 @@
             <Button 
                 Content="Config" 
                 Command="{Binding NavigateConfigurationCommand}" 
-                Style="{Binding CurrentTab,
+                Style="{Binding currentTab,
                         Converter={StaticResource TabStyleConverter},
                         ConverterParameter=Config}"
             />

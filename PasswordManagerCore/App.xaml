@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/TabButtonStyle.xaml"/>
                 <ResourceDictionary Source="Resources/ActiveTabButtonStyle.xaml"/>
+                <ResourceDictionary Source="Resources/ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

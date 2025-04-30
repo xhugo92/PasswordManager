@@ -24,21 +24,21 @@ namespace PasswordManagerCore.Modules
         #endregion
 
         #region ATRIBUTOS PRIVADOS
-        private Tab? _CurrentTab;
-        private Visibility navigationVisibility;
+        private Tab? _currentTab;
+        private Visibility _navigationVisibility;
         #endregion
 
         #region ATRIBUTOS PÚBLICOS
-        public Tab? CurrentTab
+        public Tab? currentTab
         {
-            get => _CurrentTab;
-            set => SetProperty(ref _CurrentTab, value);
+            get => _currentTab;
+            set => SetProperty(ref _currentTab, value);
         }
 
-        public Visibility NavigationVisibility
+        public Visibility navigationVisibility
         {
-            get { return navigationVisibility; }
-            set { SetProperty(ref navigationVisibility, value); }
+            get { return _navigationVisibility; }
+            set { SetProperty(ref _navigationVisibility, value); }
         }
         #endregion
 
@@ -85,7 +85,7 @@ namespace PasswordManagerCore.Modules
         }
         private async Task NavigateToAsync(Tab tab)
         {
-            CurrentTab = tab;
+            currentTab = tab;
 
             switch (tab)
             {

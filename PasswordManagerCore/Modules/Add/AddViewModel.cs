@@ -14,6 +14,95 @@ namespace PasswordManagerCore.Modules
 {
     public class AddViewModel : BaseViewModel
     {
+        #region ATRIBUTOS PRIVADOS
+        private bool _isHidden;
+        private bool _specialIsChecked;
+        private bool _lowerIsChecked;
+        private bool _upperIsChecked;
+        private bool _numberIsChecked;
+        private string _lengthText;
+        private string _sourceText;
+        private string _passwordText;
+        private string _usernameText;
+        private string _password;
+        private string _buttonState;
+        private Visibility _passwordMenuVisibility;
+        #endregion
+
+        #region ATRIBUTOS PÚBLICOS       
+        public bool specialIsChecked
+        {
+            get { return _specialIsChecked; }
+            set { SetProperty(ref _specialIsChecked, value); }
+        }
+        public bool lowerIsChecked
+        {
+            get { return _lowerIsChecked; }
+            set { SetProperty(ref _lowerIsChecked, value); }
+        }
+        public bool upperIsChecked
+        {
+            get { return _upperIsChecked; }
+            set { SetProperty(ref _upperIsChecked, value); }
+        }
+        public bool numberIsChecked
+        {
+            get { return _numberIsChecked; }
+            set { SetProperty(ref _numberIsChecked, value); }
+        }
+        public bool isHidden
+        {
+            get { return _isHidden; }
+            set { SetProperty(ref _isHidden, value); }
+        }
+        public string buttonState
+        {
+            get { return _buttonState; }
+            set { SetProperty(ref _buttonState, value); }
+        }
+        public string lengthText
+        {
+            get { return _lengthText; }
+            set { SetProperty(ref _lengthText, value); }
+        }
+        public string sourceText
+        {
+            get { return _sourceText; }
+            set { SetProperty(ref _sourceText, value); }
+        }
+        public string usernameText
+        {
+            get { return _usernameText; }
+            set { SetProperty(ref _usernameText, value); }
+        }
+        public string passwordText
+        {
+            get { return _passwordText; }
+            set { SetProperty(ref _passwordText, value); }
+        }
+        public string password
+        {
+            get { return _password; }
+            set { SetProperty(ref _password, value); }
+        }
+        public Visibility passwordMenuVisibility
+        {
+            get { return _passwordMenuVisibility; }
+            set { SetProperty(ref _passwordMenuVisibility, value); }
+        }
+        public DatabaseContext DbContext { get; set; }        
+        #endregion
+
+        #region COMANDOS
+        public ICommand ChangePasswordVisibilityCommand { get; set; }
+        public ICommand ChangingPasswordCommand { get; set; }
+        public ICommand GeneratePasswordCommand { get; set; }
+        public ICommand ShowHidePasswordMenuCommand { get; set; }
+        public ICommand AddToDatabaseCommand { get; set; }
+        public ICommand ClearFieldsCommand { get; set; }
+        #endregion
+
+        #region CONSTRUTOR
         public AddViewModel()
         {
             GeneratePasswordCommand = new MvvmHelpers.Commands.AsyncCommand(GeneratePassword);
@@ -22,146 +111,55 @@ namespace PasswordManagerCore.Modules
             ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand(ChangePasswordVisibility);
             ClearFieldsCommand = new MvvmHelpers.Commands.Command(ClearFields);
             ChangingPasswordCommand = new MvvmHelpers.Commands.Command(ChangingPassword);
-            LengthText = "12";
-            PasswordMenuVisibility = Visibility.Collapsed;
-            NumberIsChecked = true;
-            UpperIsChecked = true;
-            LowerIsChecked = true;
-            SpecialIsChecked = true;
+            lengthText = "12";
+            passwordMenuVisibility = Visibility.Collapsed;
+            numberIsChecked = true;
+            upperIsChecked = true;
+            lowerIsChecked = true;
+            specialIsChecked = true;
             isHidden = true;
-            ButtonState = "S";
+            buttonState = "S";
             DbContext = new DatabaseContext();
         }
-
-        #region Variables
-
-        private string password;
-
-        private bool isHidden;
         #endregion
 
-        #region Properties
-
-        private string buttonState;
-
-        public string ButtonState
-        {
-            get { return buttonState; }
-            set { SetProperty(ref buttonState, value); }
-        }
-
-
-        private bool specialIsChecked;
-
-        public bool SpecialIsChecked
-        {
-            get { return specialIsChecked; }
-            set { SetProperty(ref specialIsChecked, value); }
-        }
-
-
-        private bool lowerIsChecked;
-
-        public bool LowerIsChecked
-        {
-            get { return lowerIsChecked; }
-            set { SetProperty(ref lowerIsChecked, value); }
-        }
-
-
-        private bool upperIsChecked;
-
-        public bool UpperIsChecked
-        {
-            get { return upperIsChecked; }
-            set { SetProperty(ref upperIsChecked, value); }
-        }
-
-
-        private Visibility passwordMenuVisibility;
-
-        public Visibility PasswordMenuVisibility
-        {
-            get { return passwordMenuVisibility; }
-            set { SetProperty(ref passwordMenuVisibility, value); }
-        }
-
-        private bool numberIsChecked;
-
-        public bool NumberIsChecked
-        {
-            get { return numberIsChecked; }
-            set { SetProperty(ref numberIsChecked, value); }
-        }
-
-        private string lengthText;
-
-        public string LengthText
-        {
-            get { return lengthText; }
-            set { SetProperty(ref lengthText, value); }
-        }
-
-        private string sourceText;
-
-        public string SourceText
-        {
-            get { return sourceText; }
-            set { SetProperty(ref sourceText, value); }
-        }
-
-        private string usernameText;
-
-        public string UsernameText
-        {
-            get { return usernameText; }
-            set { SetProperty(ref usernameText, value); }
-        }
-
-        private string passwordText;
-
-        public string PasswordText
-        {
-            get { return passwordText; }
-            set { SetProperty(ref passwordText, value); }
-        }
-        #endregion
-
-        #region Commands
-
-        public DatabaseContext DbContext { get; set; }
-        public ICommand ChangingPasswordCommand { get; set; }
-
+        #region METODOS PUBLICOS
         public void ChangingPassword()
         {
-            if (!string.IsNullOrEmpty(PasswordText.Replace("\u25CF","")))
+            if (!string.IsNullOrEmpty(passwordText.Replace("\u25CF", "")))
             {
-                password = PasswordText;
+                password = passwordText;
                 return;
             }
         }
-        
-        public ICommand ChangePasswordVisibilityCommand { get; set; }
+        #endregion
+        #region Commands
+
+
+
+
+
+
 
         public async Task ChangePasswordVisibility()
         {
             if (isHidden)
             {
                 isHidden = false;
-                PasswordText = password;
-                ButtonState = "H";
+                passwordText = password;
+                buttonState = "H";
                 return;
             }
-            ButtonState = "S";
+            buttonState = "S";
             isHidden = true;
-            PasswordText = MultiplyString("\u25CF", password.Length);
+            passwordText = MultiplyString("\u25CF", password.Length);
         }
 
-        public ICommand GeneratePasswordCommand { get; set; }
+       
 
         public async Task GeneratePassword()
         {
-            bool tryparser = Int32.TryParse(LengthText, out int passwordLength);
+            bool tryparser = Int32.TryParse(lengthText, out int passwordLength);
             if (!tryparser)
             {
                 await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Tamanho de senha invalido, tente novamente", "Ok", 10);
@@ -171,26 +169,26 @@ namespace PasswordManagerCore.Modules
             password = RandomTextGeneratorService.GenerateRandomString(passwordLength, PasswordChars);
             if (isHidden)
             {
-                PasswordText = MultiplyString("\u25CF", passwordLength);
+                passwordText = MultiplyString("\u25CF", passwordLength);
                 return;
             }
-            PasswordText = password;
+            passwordText = password;
         }
 
 
-        public ICommand ShowHidePasswordMenuCommand { get; set; }
+      
 
         public async Task ShowHidePasswordMenu()
         {
-            if (PasswordMenuVisibility == Visibility.Collapsed)
+            if (passwordMenuVisibility == Visibility.Collapsed)
             {
-                PasswordMenuVisibility = Visibility.Visible;
+                passwordMenuVisibility = Visibility.Visible;
                 return;
             }
-            PasswordMenuVisibility = Visibility.Collapsed;
+            passwordMenuVisibility = Visibility.Collapsed;
         }
 
-        public ICommand AddToDatabaseCommand { get; set; }
+       
 
         public async Task AddToDatabase()
         {
@@ -203,7 +201,7 @@ namespace PasswordManagerCore.Modules
                     await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Por favor preencha todos os campos", "Ok", 5);
                     return;
                 }
-                await AddInDatabase(SourceText, UsernameText, password, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
+                await AddInDatabase(sourceText, usernameText, password, "Adicionado com sucesso, Senha enviada para a Area de Transferencia");
 
             }
         }
@@ -225,20 +223,20 @@ namespace PasswordManagerCore.Modules
 
         private bool CanAdd()
         {
-            if (string.IsNullOrWhiteSpace(SourceText) || string.IsNullOrWhiteSpace(UsernameText) || string.IsNullOrWhiteSpace(PasswordText))
+            if (string.IsNullOrWhiteSpace(sourceText) || string.IsNullOrWhiteSpace(usernameText) || string.IsNullOrWhiteSpace(passwordText))
             {
                 return false;
             }
             return true;
         }
 
-        public ICommand ClearFieldsCommand { get; set; }
+        
 
         public void ClearFields()
         {
-            SourceText = "";
-            UsernameText = "";
-            PasswordText = "";
+            sourceText = "";
+            usernameText = "";
+            passwordText = "";
         }
         #endregion
 
@@ -257,19 +255,19 @@ namespace PasswordManagerCore.Modules
         private string GeneratePasswordSeedString()
         {
             string seed = "";
-            if (NumberIsChecked)
+            if (numberIsChecked)
             {
                 seed += PasswordCharConstants.Number;
             }
-            if (UpperIsChecked)
+            if (upperIsChecked)
             {
                 seed += PasswordCharConstants.Upper;
             }
-            if (LowerIsChecked)
+            if (lowerIsChecked)
             {
                 seed += PasswordCharConstants.Lower;
             }
-            if (SpecialIsChecked)
+            if (specialIsChecked)
             {
                 seed += PasswordCharConstants.Special;
             }
