@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PasswordManagerCore.Modules
 {
@@ -10,6 +12,11 @@ namespace PasswordManagerCore.Modules
         public AddView()
         {
             InitializeComponent();
+        }
+
+        private void PreviewTextInputPasswordSize(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !(int.TryParse(e.Text, out int value) && value >= 0 && value <= 999);
         }
     }
 }

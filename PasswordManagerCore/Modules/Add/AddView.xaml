@@ -100,7 +100,7 @@
         </Border>
 
         <TextBlock
-            Text="Configuration"  
+            Text="Password settings"  
             FontWeight="SemiBold"
             Margin="5, 0, 2, 5"
         />
@@ -112,144 +112,47 @@
             Padding="5"
             Margin="0,0,0 10"
         >
+            <StackPanel Orientation="Vertical">
+                <StackPanel 
+                    Orientation="Horizontal"
+                    Margin="0,0,0, 5"
+                >
+                    <TextBlock 
+                        Text="Size: " 
+                        TextWrapping="Wrap" 
+                        HorizontalAlignment="Left" 
+                    />
+                
+                    <TextBox 
+                        Width="30" 
+                        MaxLength="3"
+                        ToolTip="Apenas números positivos até 999"
+                        Text="{Binding LengthText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        PreviewTextInput="PreviewTextInputPasswordSize"                    
+                    />
+                </StackPanel>
 
+                <CheckBox 
+                    IsChecked="{Binding NumberIsChecked, Mode=TwoWay}" 
+                    Content="Numbers (0-9)"
+                    Margin="0, 0, 0, 5"/>
+                
+                <CheckBox 
+                    IsChecked="{Binding UpperIsChecked, Mode=TwoWay}" 
+                    Content="Upper case (A-Z)"
+                    Margin="0, 0, 0, 5"/>
+                
+                <CheckBox 
+                    IsChecked="{Binding LowerIsChecked, Mode=TwoWay}" 
+                    Content="Lower case (a-z)"
+                    Margin="0, 0, 0, 5"/>
+                
+                <CheckBox 
+                    IsChecked="{Binding SpecialIsChecked, Mode=TwoWay}" 
+                    Content="Special characters (@*!#$%)"
+                    Margin="0, 0, 0, 5"/>                
+
+            </StackPanel>
         </Border>
-
-    </StackPanel>        
-
-    
-    <!--<Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        
-        <TextBlock 
-            Text="Entre com as informações da sua senha " 
-            TextWrapping="Wrap" 
-            HorizontalAlignment="Center" 
-            Margin="5, 10, 5, 10"
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-        />
-
-        <TextBlock 
-            Text="Source: "
-            Grid.Row="1"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            TextWrapping="Wrap" 
-            Margin="5"
-        />
-
-        <TextBox
-            Text="{Binding SourceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Grid.Row="1"
-            Grid.Column="1"            
-        />
-
-        <TextBlock 
-            Text="User: "
-            Grid.Row="2"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            TextWrapping="Wrap" 
-            Margin="5"
-        />
-
-        <TextBox
-            Text="{Binding UsernameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Grid.Row="2"
-            Grid.Column="1"            
-        />
-        
-        <TextBlock 
-            Text="Password: "
-            Grid.Row="3"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            TextWrapping="Wrap" 
-            Margin="5"
-        />
-
-        <TextBox
-            Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Grid.Row="3"
-            Grid.Column="1"            
-        >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TextChanged">
-                    <i:InvokeCommandAction Command="{Binding ChangePasswordCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
-
-        <Grid Grid.Row="3" Margin="5" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Senha: " TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <TextBox Grid.Column="1" Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TextChanged">
-                        <i:InvokeCommandAction Command="{Binding ChangingPasswordCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TextBox>
-            <Button Grid.Column="2" Content="{Binding ButtonState}" Command="{Binding ChangePasswordVisibilityCommand}" Margin="5,0,5,0"/>
-        </Grid>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Adicionar" Command="{Binding AddToDatabaseCommand}" Margin="5"/>
-            <Button Content="Limpar" Command="{Binding ClearFieldsCommand}" Margin="5"/>
-            <Button Content="Gerar Senha" Command="{Binding GeneratePasswordCommand}" Margin="5"/>
-        </StackPanel>
-        <Label Content="Configuração avançada das senhas" HorizontalAlignment="Center" Grid.Row="5">
-            <Label.InputBindings>
-                <MouseBinding Command="{Binding ShowHidePasswordMenuCommand}" MouseAction="LeftClick"/>
-            </Label.InputBindings>
-        </Label>
-        <Grid Grid.Row="6" Visibility="{Binding PasswordMenuVisibility}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="5" >
-                <TextBlock Text="Tamanho: " TextWrapping="Wrap" HorizontalAlignment="Left" />
-                <TextBox Text="{Binding LengthText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="30"/>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                <CheckBox IsChecked="{Binding NumberIsChecked, Mode=TwoWay}" Content="Numeros (0-9)"/>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
-                <CheckBox IsChecked="{Binding UpperIsChecked, Mode=TwoWay}" Content="Letras Maiusculas(A-Z)"/>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                <CheckBox IsChecked="{Binding LowerIsChecked, Mode=TwoWay}" Content="Letras Minusculas(a-z)"/>
-            </StackPanel>
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-                <CheckBox IsChecked="{Binding SpecialIsChecked, Mode=TwoWay}" Content="Caracteres Especiais(@*!#$%)"/>
-            </StackPanel>
-            
-        </Grid>
-    </Grid>-->
-
+    </StackPanel>    
 </UserControl>

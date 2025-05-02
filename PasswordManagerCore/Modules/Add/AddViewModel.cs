@@ -124,6 +124,12 @@ namespace PasswordManagerCore.Modules
         #endregion
 
         #region METODOS PUBLICOS
+        public void ClearFields()
+        {
+            sourceText = "";
+            usernameText = "";
+            passwordText = "";
+        }
         public void ChangingPassword()
         {
             if (!string.IsNullOrEmpty(passwordText.Replace("\u25CF", "")))
@@ -131,31 +137,7 @@ namespace PasswordManagerCore.Modules
                 password = passwordText;
                 return;
             }
-        }
-        #endregion
-        #region Commands
-
-
-
-
-
-
-
-        public async Task ChangePasswordVisibility()
-        {
-            if (isHidden)
-            {
-                isHidden = false;
-                passwordText = password;
-                buttonState = "H";
-                return;
-            }
-            buttonState = "S";
-            isHidden = true;
-            passwordText = MultiplyString("\u25CF", password.Length);
-        }
-
-       
+        }    
 
         public async Task GeneratePassword()
         {
@@ -175,21 +157,6 @@ namespace PasswordManagerCore.Modules
             passwordText = password;
         }
 
-
-      
-
-        public async Task ShowHidePasswordMenu()
-        {
-            if (passwordMenuVisibility == Visibility.Collapsed)
-            {
-                passwordMenuVisibility = Visibility.Visible;
-                return;
-            }
-            passwordMenuVisibility = Visibility.Collapsed;
-        }
-
-       
-
         public async Task AddToDatabase()
         {
             if (!NavigationService.HasPopupOpen)
@@ -205,7 +172,10 @@ namespace PasswordManagerCore.Modules
 
             }
         }
+        #endregion
 
+        #region METODOS PRIVADOS
+       
         private async Task AddInDatabase(string Source, string User, string Password, string SucessMessage)
         {
             DbContext.SignInInformations.Add(new SignInInformation(Source, User, Password, false));
@@ -229,18 +199,6 @@ namespace PasswordManagerCore.Modules
             }
             return true;
         }
-
-        
-
-        public void ClearFields()
-        {
-            sourceText = "";
-            usernameText = "";
-            passwordText = "";
-        }
-        #endregion
-
-        #region Methods
 
         private string MultiplyString(string a, int b)
         {
@@ -274,5 +232,48 @@ namespace PasswordManagerCore.Modules
             return seed;
         }
         #endregion
+
+
+
+
+
+
+        public async Task ChangePasswordVisibility()
+        {
+            if (isHidden)
+            {
+                isHidden = false;
+                passwordText = password;
+                buttonState = "H";
+                return;
+            }
+            buttonState = "S";
+            isHidden = true;
+            passwordText = MultiplyString("\u25CF", password.Length);
+        }
+        
+
+        public async Task ShowHidePasswordMenu()
+        {
+            if (passwordMenuVisibility == Visibility.Collapsed)
+            {
+                passwordMenuVisibility = Visibility.Visible;
+                return;
+            }
+            passwordMenuVisibility = Visibility.Collapsed;
+        }
+
+       
+
+        
+
+       
+
+        
+
+        
+
+        
+       
     }
 }
