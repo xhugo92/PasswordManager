@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Resources/TabButtonStyle.xaml"/>
                 <ResourceDictionary Source="Resources/ActiveTabButtonStyle.xaml"/>
                 <ResourceDictionary Source="Resources/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="Resources/WrappedButtonContentStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

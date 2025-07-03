@@ -37,7 +37,7 @@
                     />
 
                     <TextBox
-                        Text="{Binding SourceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding sourceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Margin="5,0,0,5"
                     />
 
@@ -50,7 +50,7 @@
                     />
 
                     <TextBox
-                            Text="{Binding UsernameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding usernameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="5,0,0,5"          
                         />
 
@@ -63,7 +63,7 @@
                         />
 
                     <TextBox
-                            Text="{Binding PasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding passwordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="5,0,0,5"            
                         >
                         <i:Interaction.Triggers>
@@ -81,20 +81,26 @@
                     <Button 
                         Content="Create" 
                         Command="{Binding GeneratePasswordCommand}" 
-                        Margin="5"
-                        Style="{StaticResource ButtonStyle}"/>
+                        Margin="5"                       
+                        Style="{StaticResource WrappedButtonContentStyle}"/>
+                    
+                    <Button
+                        Content="Toggle"
+                        Command="{Binding ChangePasswordVisibilityCommand}"
+                        Margin="5"                        
+                        Style="{StaticResource WrappedButtonContentStyle}"/>
 
                     <Button 
                         Content="Clear" 
                         Command="{Binding ClearFieldsCommand}" 
                         Margin="5"
-                        Style="{StaticResource ButtonStyle}"/>
+                        Style="{StaticResource WrappedButtonContentStyle}"/>
 
                     <Button 
                         Content="Save" 
                         Command="{Binding AddToDatabaseCommand}" 
                         Margin="5"
-                        Style="{StaticResource ButtonStyle}"/>
+                        Style="{StaticResource WrappedButtonContentStyle}"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -127,28 +133,29 @@
                         Width="30" 
                         MaxLength="3"
                         ToolTip="Apenas números positivos até 999"
-                        Text="{Binding LengthText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        PreviewTextInput="PreviewTextInputPasswordSize"                    
+                        Text="{Binding lengthText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        PreviewTextInput="PreviewTextInputPasswordSize"  
+                        DataObject.Pasting="ValidadePastingInputPasswordSize"
                     />
                 </StackPanel>
 
                 <CheckBox 
-                    IsChecked="{Binding NumberIsChecked, Mode=TwoWay}" 
+                    IsChecked="{Binding numberIsChecked, Mode=TwoWay}" 
                     Content="Numbers (0-9)"
                     Margin="0, 0, 0, 5"/>
                 
                 <CheckBox 
-                    IsChecked="{Binding UpperIsChecked, Mode=TwoWay}" 
+                    IsChecked="{Binding upperIsChecked, Mode=TwoWay}" 
                     Content="Upper case (A-Z)"
                     Margin="0, 0, 0, 5"/>
                 
                 <CheckBox 
-                    IsChecked="{Binding LowerIsChecked, Mode=TwoWay}" 
+                    IsChecked="{Binding lowerIsChecked, Mode=TwoWay}" 
                     Content="Lower case (a-z)"
                     Margin="0, 0, 0, 5"/>
                 
                 <CheckBox 
-                    IsChecked="{Binding SpecialIsChecked, Mode=TwoWay}" 
+                    IsChecked="{Binding specialIsChecked, Mode=TwoWay}" 
                     Content="Special characters (@*!#$%)"
                     Margin="0, 0, 0, 5"/>                
 

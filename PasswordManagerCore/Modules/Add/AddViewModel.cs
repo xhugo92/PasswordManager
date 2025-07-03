@@ -24,9 +24,7 @@ namespace PasswordManagerCore.Modules
         private string _sourceText;
         private string _passwordText;
         private string _usernameText;
-        private string _password;
-        private string _buttonState;
-        private Visibility _passwordMenuVisibility;
+        private string _password;        
         #endregion
 
         #region ATRIBUTOS PÚBLICOS       
@@ -54,12 +52,7 @@ namespace PasswordManagerCore.Modules
         {
             get { return _isHidden; }
             set { SetProperty(ref _isHidden, value); }
-        }
-        public string buttonState
-        {
-            get { return _buttonState; }
-            set { SetProperty(ref _buttonState, value); }
-        }
+        }       
         public string lengthText
         {
             get { return _lengthText; }
@@ -84,12 +77,7 @@ namespace PasswordManagerCore.Modules
         {
             get { return _password; }
             set { SetProperty(ref _password, value); }
-        }
-        public Visibility passwordMenuVisibility
-        {
-            get { return _passwordMenuVisibility; }
-            set { SetProperty(ref _passwordMenuVisibility, value); }
-        }
+        }       
         public DatabaseContext DbContext { get; set; }        
         #endregion
 
@@ -106,20 +94,20 @@ namespace PasswordManagerCore.Modules
         public AddViewModel()
         {
             GeneratePasswordCommand = new MvvmHelpers.Commands.AsyncCommand(GeneratePassword);
-            AddToDatabaseCommand = new MvvmHelpers.Commands.AsyncCommand(AddToDatabase);
-            ShowHidePasswordMenuCommand = new MvvmHelpers.Commands.AsyncCommand(ShowHidePasswordMenu);
+            AddToDatabaseCommand = new MvvmHelpers.Commands.AsyncCommand(AddToDatabase);            
             ChangePasswordVisibilityCommand = new MvvmHelpers.Commands.AsyncCommand(ChangePasswordVisibility);
             ClearFieldsCommand = new MvvmHelpers.Commands.Command(ClearFields);
             ChangingPasswordCommand = new MvvmHelpers.Commands.Command(ChangingPassword);
-            lengthText = "12";
-            passwordMenuVisibility = Visibility.Collapsed;
+
+            DbContext = new DatabaseContext();
+
             numberIsChecked = true;
             upperIsChecked = true;
             lowerIsChecked = true;
             specialIsChecked = true;
             isHidden = true;
-            buttonState = "S";
-            DbContext = new DatabaseContext();
+           
+            lengthText = "12";            
         }
         #endregion
 
@@ -130,6 +118,7 @@ namespace PasswordManagerCore.Modules
             usernameText = "";
             passwordText = "";
         }
+        
         public void ChangingPassword()
         {
             if (!string.IsNullOrEmpty(passwordText.Replace("\u25CF", "")))
@@ -142,6 +131,7 @@ namespace PasswordManagerCore.Modules
         public async Task GeneratePassword()
         {
             bool tryparser = Int32.TryParse(lengthText, out int passwordLength);
+            
             if (!tryparser)
             {
                 await NavigationService.OpenNewWindowAsync<NotificationPopupViewModel>("Tamanho de senha invalido, tente novamente", "Ok", 10);
@@ -149,11 +139,13 @@ namespace PasswordManagerCore.Modules
             }
             string PasswordChars = GeneratePasswordSeedString();
             password = RandomTextGeneratorService.GenerateRandomString(passwordLength, PasswordChars);
+            
             if (isHidden)
             {
                 passwordText = MultiplyString("\u25CF", passwordLength);
                 return;
             }
+
             passwordText = password;
         }
 
@@ -233,47 +225,17 @@ namespace PasswordManagerCore.Modules
         }
         #endregion
 
-
-
-
-
-
         public async Task ChangePasswordVisibility()
         {
             if (isHidden)
             {
                 isHidden = false;
                 passwordText = password;
-                buttonState = "H";
                 return;
             }
-            buttonState = "S";
+
             isHidden = true;
             passwordText = MultiplyString("\u25CF", password.Length);
-        }
-        
-
-        public async Task ShowHidePasswordMenu()
-        {
-            if (passwordMenuVisibility == Visibility.Collapsed)
-            {
-                passwordMenuVisibility = Visibility.Visible;
-                return;
-            }
-            passwordMenuVisibility = Visibility.Collapsed;
-        }
-
-       
-
-        
-
-       
-
-        
-
-        
-
-        
-       
+        }        
     }
 }
